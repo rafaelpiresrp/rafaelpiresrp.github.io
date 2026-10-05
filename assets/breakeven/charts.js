@@ -85,8 +85,8 @@
     const status=document.createElement('p');status.className='sr-only';status.id='chart-hint-'+key;status.textContent=words.hint;host.append(status);
     function draw(){
       if(svg)svg.remove();
-      width=Math.max(260,Math.round(canvas.getBoundingClientRect().width));height=width<420?320:350;
-      const pad={l:key==='regra'?64:(width<420?42:52),r:16,t:12,b:key==='regra'?64:46};
+      width=Math.max(260,Math.round(canvas.getBoundingClientRect().width));height=width<420?230:260;
+      const pad={l:key==='regra'?60:(width<420?40:48),r:14,t:10,b:key==='regra'?56:34};
       bounds={l:pad.l,r:width-pad.r,t:pad.t,b:height-pad.b};
       let xmin,xmax;
       if(spec.type==='scatter'){xmin=-450;xmax=520;}
@@ -100,37 +100,37 @@
       svg.append(el('title',{},host.dataset.title));
       const clip=el('clipPath',{id:'clip-'+key});clip.append(el('rect',{x:bounds.l,y:bounds.t,width:bounds.r-bounds.l,height:bounds.b-bounds.t}));const defs=el('defs');defs.append(clip);svg.append(defs);
       const bg=el('g',{'clip-path':`url(#clip-${key})`});svg.append(bg);
-      /* Axis layer: inward ticks on all four sides and a closed frame, drawn above the data (pgfplots style) */
-      const axes=el('g',{stroke:INK,'stroke-width':'.8',fill:'none'});
-      const T=5;
-      const xtick=x=>{const px=X(x);axes.append(el('line',{x1:px,x2:px,y1:bounds.b,y2:bounds.b-T}));axes.append(el('line',{x1:px,x2:px,y1:bounds.t,y2:bounds.t+T}));};
-      const ytick=y=>{const py=Y(y);axes.append(el('line',{x1:bounds.l,x2:bounds.l+T,y1:py,y2:py}));axes.append(el('line',{x1:bounds.r,x2:bounds.r-T,y1:py,y2:py}));};
+      /* Axis layer: light grid, a thin baseline and small ticks on the x axis only */
+      const axes=el('g',{stroke:'#8a8a84','stroke-width':'.7',fill:'none'});
+      const T=4;
+      const xtick=x=>{const px=X(x);axes.append(el('line',{x1:px,x2:px,y1:bounds.b,y2:bounds.b+T}));};
+      const ytick=y=>{if(y!==0)bg.append(el('line',{x1:bounds.l,x2:bounds.r,y1:Y(y),y2:Y(y),stroke:'#000000','stroke-opacity':'.08','stroke-width':'.7'}));};
       if(key==='hist'||key==='pia')for(const [a,b] of [[2014.25,2017],[2020,2020.5]])bg.append(el('rect',{x:X(a),y:bounds.t,width:X(b)-X(a),height:bounds.b-bounds.t,fill:'#000000','fill-opacity':'.07'}));
       let ticks;
       if(key==='pia')ticks=[.6,.8,1,1.2,1.4,1.6];
       else {const step=tickStep(ymax-ymin);ticks=[];for(let y=Math.ceil(ymin/step)*step;y<=ymax;y+=step)ticks.push(y);}
       for(const y of ticks){
-        if(y===0)bg.append(el('line',{x1:bounds.l,x2:bounds.r,y1:Y(0),y2:Y(0),stroke:INK,'stroke-width':'.6','stroke-dasharray':'3 3'}));
+        if(y===0)bg.append(el('line',{x1:bounds.l,x2:bounds.r,y1:Y(0),y2:Y(0),stroke:INK,'stroke-opacity':'.55','stroke-width':'.6','stroke-dasharray':'3 3'}));
         ytick(y);
         svg.append(el('text',{x:bounds.l-7,y:Y(y)+4,'text-anchor':'end',class:'axis-label'},axisNum(y,key==='pia'?1:0)));
       }
       if(spec.type==='scatter'){
         svg.append(el('text',{transform:'rotate(-90)',x:-(bounds.t+bounds.b)/2,y:14,'text-anchor':'middle',class:'axis-label'},pt?'Variação do desemprego (p.p.)':'Unemployment change (p.p.)'));
         const xticks=width<420?[-300,0,300]:[-450,-300,-150,0,150,300,450];
-        for(const x of xticks){xtick(x);svg.append(el('text',{x:X(x),y:bounds.b+18,'text-anchor':'middle',class:'axis-label'},axisNum(x,0)));}
-        bg.append(el('line',{x1:X(0),x2:X(0),y1:bounds.t,y2:bounds.b,stroke:INK,'stroke-width':'.6','stroke-dasharray':'3 3'}));
+        for(const x of xticks){xtick(x);svg.append(el('text',{x:X(x),y:bounds.b+19,'text-anchor':'middle',class:'axis-label'},axisNum(x,0)));}
+        bg.append(el('line',{x1:X(0),x2:X(0),y1:bounds.t,y2:bounds.b,stroke:INK,'stroke-opacity':'.55','stroke-width':'.6','stroke-dasharray':'3 3'}));
         svg.append(el('text',{x:(bounds.l+bounds.r)/2,y:height-10,'text-anchor':'middle',class:'axis-label'},pt?'Folga, mil empregos/mês':'Gap, thousand jobs/month'));
-        bg.append(el('line',{x1:X(-450),y1:Y(-1200*(-450)/109262),x2:X(520),y2:Y(-1200*520/109262),stroke:INK,'stroke-width':1}));
+        bg.append(el('line',{x1:X(-450),y1:Y(-1200*(-450)/109262),x2:X(520),y2:Y(-1200*520/109262),stroke:'#555555','stroke-width':1}));
       }else if(spec.type==='components'){
         for(const [i,r] of rows.entries()){
           if(width<420&&i%2===1&&i!==rows.length-1)continue;
           const txt=i===rows.length-1?'12m':r.periodo.slice(2);
           xtick(r.x);
-          svg.append(el('text',{x:X(r.x),y:bounds.b+18,'text-anchor':'middle',class:'axis-label'},txt));
+          svg.append(el('text',{x:X(r.x),y:bounds.b+19,'text-anchor':'middle',class:'axis-label'},txt));
         }
       }else{
         const span=xmax-xmin,step=span>8?(width<500?3:2):1;
-        for(let y=Math.ceil(xmin);y<xmax;y+=step){xtick(y);svg.append(el('text',{x:X(y),y:bounds.b+18,'text-anchor':'middle',class:'axis-label'},String(y)));}
+        for(let y=Math.ceil(xmin);y<xmax;y+=step){xtick(y);svg.append(el('text',{x:X(y),y:bounds.b+19,'text-anchor':'middle',class:'axis-label'},String(y)));}
       }
       plot=el('g',{'clip-path':`url(#clip-${key})`});svg.append(plot);
       if(spec.type==='scatter'){
@@ -151,7 +151,7 @@
           }else plot.append(el('path',{d:rows.map((r,i)=>(i?'L':'M')+X(r.t).toFixed(2)+','+Y(r[field]).toFixed(2)).join(' '),fill:'none',stroke:colors[color],'stroke-width':1.4,'stroke-linejoin':'round','stroke-linecap':'round'}));
         });
       }
-      axes.append(el('rect',{x:bounds.l,y:bounds.t,width:bounds.r-bounds.l,height:bounds.b-bounds.t}));
+      axes.append(el('line',{x1:bounds.l,x2:bounds.r,y1:bounds.b,y2:bounds.b}));
       svg.append(axes);
       overlay=el('g',{'pointer-events':'none'});svg.append(overlay);
       function nearest(event){const box=svg.getBoundingClientRect(),px=(event.clientX-box.left)*width/box.width,py=(event.clientY-box.top)*height/box.height;let min=Infinity,idx=0;rows.forEach((r,i)=>{const x=spec.type==='scatter'?r.folga:spec.type==='components'?r.x:r.t;const dist=Math.pow(X(x)-px,2)+(spec.type==='scatter'?Math.pow(Y(r.var_desemprego)-py,2):0);if(dist<min){min=dist;idx=i;}});active=idx;show();}
