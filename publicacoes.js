@@ -1,4 +1,4 @@
-/* Add one record per article. Valid areas: economics, finance.
+ Add one record per article. Valid areas: economics, finance.
    Valid types: letters, working_papers, what_if.
    Example:
    {
@@ -9,5 +9,5 @@
      resumo: "",
      arquivo: "breakeven_brazil.html"
    }
-*/
+
 window.PUBLICACOES = [];
