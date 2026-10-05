@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="description" content="O componente demográfico caiu um terço desde 2013. A recuperação da participação voltou a elevar o breakeven em 2026."><meta name="author" content="Rafael Pires"><title>Breakeven do crescimento do emprego | Rafael Pires</title><link rel="canonical" href="https://rafaelpiresrp.github.io/breakeven_emprego.html"><link rel="alternate" hreflang="en" href="https://rafaelpiresrp.github.io/breakeven_brazil.html"><link rel="alternate" hreflang="pt-BR" href="https://rafaelpiresrp.github.io/breakeven_emprego.html"><style>:root{
+  --green:#213024;
+  --green-deep:#172119;
+  --ink:#ece4d3;
+  --muted:#aea78f;
+  --brown:#a8693a;
+  --serif:Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;background:var(--green);color:var(--ink);font:1rem/1.75 var(--sans)}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-decoration-color:var(--brown);text-underline-offset:.3em;text-decoration-thickness:1px}
+a:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+h1,h2,h3,p{margin-top:0}
+h1{font:400 clamp(2.6rem,5vw,3.8rem)/1.1 var(--serif);letter-spacing:-.03em;margin-bottom:2.5rem}
+.skip-link{position:absolute;top:-8rem;left:1rem;padding:.5rem 1rem;background:var(--green-deep)}
+.skip-link:focus{top:1rem}
+
+/* Home */
+.home-main{flex:1;display:grid;grid-template-columns:auto 1fr;min-height:100vh;min-height:100svh}
+.home-figure{margin:0;height:100vh;height:100svh;position:sticky;top:0}
+.home-figure img{display:block;height:100%;width:auto;max-width:62vw;object-fit:cover;object-position:70% center}
+.home-panel{display:flex;flex-direction:column;justify-content:center;padding:4rem clamp(2rem,5vw,5.5rem)}
+.home h1{white-space:nowrap;font-size:clamp(2.8rem,4.6vw,5.5rem);line-height:1.02;letter-spacing:-.045em;margin:0 0 3rem}
+.home h1 span{color:var(--brown)}
+.home-nav{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem}
+.home-nav a{font:400 1.5rem/1.6 var(--serif)}
+.home-foot{margin-top:4rem;font-size:.75rem;line-height:1.6;color:var(--muted)}
+.home-foot p{margin:0}
+
+/* Inner pages */
+.site-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.5rem 2rem;width:calc(100% - 4rem);max-width:60rem;margin:0 auto;padding:2rem 0}
+.wordmark{font:400 1.5rem/1.2 var(--serif);letter-spacing:-.02em}
+.header-nav{display:flex;flex-wrap:wrap;gap:.25rem 2rem;font-size:.9rem;color:var(--muted)}
+.header-nav a[aria-current="page"]{color:var(--ink)}
+.page-main{flex:1;width:calc(100% - 4rem);max-width:60rem;margin:0 auto;padding:3.5rem 0 5rem}
+
+.about-copy{max-width:38rem}
+.about-copy p{font-size:1.1rem;line-height:1.85;margin-bottom:1.4rem}
+
+.research-areas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem}
+.research-areas h2{font:400 2rem/1.25 var(--serif);margin:0 0 1rem}
+.area-topics{display:flex;flex-direction:column;gap:.2rem;color:var(--muted)}
+.area-topics a:hover{color:var(--ink)}
+
+.archive-heading{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:1rem 2rem;margin-bottom:2rem}
+.archive-heading h1{margin:0}
+.area-switch,.section-tabs{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;font-size:.95rem;color:var(--muted)}
+.area-switch a[aria-current="page"],.section-tabs a[aria-current="location"]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--brown);text-underline-offset:.3em;text-decoration-thickness:1px}
+.section-tabs{margin-bottom:2.5rem}
+.publication{margin-bottom:2.5rem}
+.publication time{font-size:.8rem;color:var(--muted)}
+.publication h3{font:400 clamp(1.4rem,2.6vw,1.75rem)/1.3 var(--serif);margin:.2rem 0 .4rem;max-width:44rem}
+.publication p{color:var(--muted);max-width:42rem;margin:0}
+.empty{color:var(--muted)}
+
+.article-main{max-width:44rem}
+.article-header{margin-bottom:2.5rem}
+.article-header h1{margin-bottom:1rem}
+.article-byline{font-size:.85rem;color:var(--muted)}
+.article-body{font-size:1.1rem;line-height:1.85}
+.article-body p{margin-bottom:1.4rem}
+.article-body h2{font:400 1.7rem/1.35 var(--serif);margin:2.6rem 0 1rem}
+.article-body figure{margin:2rem 0}
+.article-body img{display:block;max-width:100%;height:auto}
+.article-body figcaption{color:var(--muted);font-size:.85rem;padding-top:.6rem}
+.article-body blockquote{margin:2rem 0;padding-left:1.5rem;border-left:2px solid var(--brown);font:1.3rem/1.6 var(--serif)}
+.article-back{margin-top:3rem;font-size:.9rem;color:var(--muted)}
+
+.site-footer{width:calc(100% - 4rem);max-width:60rem;margin:0 auto;padding:2rem 0;font-size:.75rem;color:var(--muted)}
+.site-footer p{margin:0}
+[hidden]{display:none!important}
+
+@media(max-width:760px){
+  .home-main{grid-template-columns:1fr}
+  .home-figure{position:static;height:52svh}
+  .home-figure img{width:100%;max-width:none;object-position:center 30%}
+  .home-panel{padding:2.5rem 1.75rem 2rem}
+  .home h1{margin-bottom:2rem}
+  .home-nav a{font-size:1.3rem}
+  .home-foot{margin-top:2.5rem}
+  .site-header,.page-main,.site-footer{width:calc(100% - 3rem)}
+  .site-header{padding:1.25rem 0}
+  .page-main{padding-top:2rem}
+  .research-areas{grid-template-columns:1fr;gap:2.25rem}
+  .archive-heading{flex-direction:column}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .site-header,.site-footer,.skip-link,.article-back,.area-switch{display:none}
+}
+</style><link rel="stylesheet" href="assets/breakeven/article.css"></head>
+<body><a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header"><a class="wordmark" href="index.html">Rafael Pires</a><nav class="header-nav" aria-label="Main navigation"><a href="sobre.html">About</a><a href="research.html">Research &amp; Topics of Interest</a></nav></header>
+<main id="conteudo" class="page-main article-main">
+<p class="article-location"><a href="economics.html#letters">Economics · Letters</a></p>
+<article><header class="article-header"><h1>Breakeven do crescimento do emprego</h1><p class="article-deck">O componente demográfico caiu um terço desde 2013. A recuperação da participação voltou a elevar o breakeven em 2026.</p><p class="article-byline">Rafael Pires · Outubro de 2026</p>
+<div class="article-tools"><nav class="language-switch" aria-label="Idioma do artigo"><a href="breakeven_brazil.html" lang="en">English</a><a href="breakeven_emprego.html" lang="pt-BR" aria-current="page">Português</a></nav><div class="pdf-links"><span>PDF</span><a href="assets/breakeven/Breakeven_Employment_EN.pdf" download>English</a><a href="assets/breakeven/Breakeven_Emprego_PT.pdf" download>Português</a></div></div></header>
+<div class="article-body"><div class="key-findings">
+<h2>Destaques</h2><ul>
+<li><p><strong>O breakeven está mais baixo.</strong> O Brasil precisa gerar cerca de 60 mil empregos por mês para manter a taxa de desemprego estável. O componente demográfico do breakeven caiu de 100 mil em 2013 para 65 mil, porque a população em idade de trabalhar cresce hoje cerca de metade do que crescia.</p></li>
+<li><p><strong>Fim de 2025.</strong> A geração de empregos caiu de 155 mil para 97 mil por mês, na média de 12 meses, e mesmo assim o desemprego continuou caindo cerca de 1 p.p. ao ano, porque a queda da participação levou o breakeven para perto de zero.</p></li>
+<li><p><strong>2026.</strong> A participação parou de cair e o breakeven voltou a 60 mil. Com a geração de empregos em 88 mil por mês, a diferença em relação ao breakeven caiu para 28,5 mil, e a queda do desemprego em 12 meses diminuiu para 0,3 p.p.</p></li>
+<li><p><strong>Regra prática.</strong> Cada 10 mil empregos por mês acima do breakeven, mantidos durante um ano, reduzem a taxa de desemprego em cerca de 0,1 p.p.</p></li>
+<li><p><strong>O que acompanhar.</strong> Se a participação voltar a crescer no ritmo de 2019, uma geração de 90 mil empregos por mês apenas manterá o desemprego estável.</p></li>
+</ul>
+</div>
+<h2 id="como-ler-o-dado-mensal">Como ler o dado mensal</h2>
+<p>Todo mês, a PNAD Contínua informa quantas pessoas a mais estão empregadas no país. Esse número, sozinho, diz pouco sobre o aperto do mercado de trabalho, porque o efeito sobre o desemprego depende também de quantas pessoas entram na força de trabalho no mesmo período. Uma alta de 80 mil empregos por mês pode reduzir o desemprego em um ano e aumentá-lo em outro.</p>
+<p>Podemos usar como referência o breakeven, ou seja, quantos empregos a economia precisa gerar por mês para manter a taxa de desemprego onde está. O Fed de São Francisco publica essa medida para os Estados Unidos (Petrosky Nadeau e Stewart, 2024). Nesta nota, calculo o breakeven para o Brasil com a PNAD mensal de março de 2012 a agosto de 2026, mostro como a diferença entre a geração de empregos e o breakeven se traduz em variação do desemprego e separo o breakeven em uma parte demográfica e uma parte ligada à participação na força de trabalho. As contas estão no Quadro 1.</p>
+<details class="method">
+<summary>Quadro 1: Como o breakeven é calculado</summary><p> Seja <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math> o número de pessoas empregadas e <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math> a força de trabalho. A taxa de desemprego é <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><mn>1</mn><mo>−</mo><mi>E</mi><mi>/</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">u = 1 - E/L</annotation></semantics></math>. Para que <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math> não mude de um mês para o outro, o emprego precisa crescer <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>u</mi></mrow><annotation encoding="application/x-tex">1-u</annotation></semantics></math> vezes o aumento da força de trabalho. Esse é o breakeven: <span class="equation-wrap" id="eq:be"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>t</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>Δ</mi><msub><mi>L</mi><mi>t</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\label{eq:be}
+B_t = (1-u_{t-1})\,\Delta L_t .</annotation></semantics></math><span class="equation-number">(1)</span></span> Chamo de folga a diferença entre a geração de empregos e o breakeven, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>t</mi></msub><mo>=</mo><mi>Δ</mi><msub><mi>E</mi><mi>t</mi></msub><mo>−</mo><msub><mi>B</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">F_t = \Delta E_t - B_t</annotation></semantics></math>. A folga determina exatamente a variação da taxa de desemprego, <span class="equation-wrap" id="eq:du"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msub><mi>u</mi><mi>t</mi></msub><mo>=</mo><mo>−</mo><mspace width="0.167em"></mspace><msub><mi>F</mi><mi>t</mi></msub><mi>/</mi><msub><mi>L</mi><mi>t</mi></msub><mo>,</mo></mrow><annotation encoding="application/x-tex">\label{eq:du}
+\Delta u_t = -\,F_t / L_t ,</annotation></semantics></math><span class="equation-number">(2)</span></span> e, em doze meses, uma folga média <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>F</mi><mo accent="true">‾</mo></mover><annotation encoding="application/x-tex">\bar F</annotation></semantics></math> altera a taxa em cerca de <span class="equation-wrap" id="eq:rule"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>t</mi></msub><mo>−</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>12</mn></mrow></msub><mo>≈</mo><mo>−</mo><mspace width="0.167em"></mspace><mn>1200</mn><mspace width="0.167em"></mspace><msub><mover><mi>F</mi><mo accent="true">‾</mo></mover><mi>t</mi></msub><mi>/</mi><msub><mi>L</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\label{eq:rule}
+u_t - u_{t-12} \approx -\,1200\,\bar F_t / L_t</annotation></semantics></math><span class="equation-number">(3)</span></span> pontos percentuais. Com uma força de trabalho de 109 milhões de pessoas, isso equivale a 0,011 p.p. para cada mil empregos por mês. Como a força de trabalho é a população em idade de trabalhar <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> multiplicada pela taxa de participação <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>, vale a decomposição exata <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msub><mi>L</mi><mi>t</mi></msub><mo>=</mo><msub><mi>p</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>Δ</mi><msub><mi>N</mi><mi>t</mi></msub><mo>+</mo><msub><mi>N</mi><mi>t</mi></msub><mi>Δ</mi><msub><mi>p</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">\Delta L_t = p_{t-1}\Delta N_t + N_t\Delta p_t</annotation></semantics></math>, e o breakeven pode ser escrito como <span class="equation-wrap" id="eq:split"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>t</mi></msub><mo>=</mo><munder><munder><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msub><mi>p</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mi>Δ</mi><msub><mi>N</mi><mi>t</mi></msub></mrow><mo accent="true">⏟</mo></munder><mtext mathvariant="normal">demografia</mtext></munder><mo>+</mo><munder><munder><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><msub><mi>u</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msub><mi>N</mi><mi>t</mi></msub><mi>Δ</mi><msub><mi>p</mi><mi>t</mi></msub></mrow><mo accent="true">⏟</mo></munder><mtext mathvariant="normal">participação</mtext></munder><mi>.</mi></mrow><annotation encoding="application/x-tex">\label{eq:split}
+B_t = \underbrace{(1-u_{t-1})\,p_{t-1}\Delta N_t}_{\text{demografia}}
+    + \underbrace{(1-u_{t-1})\,N_t\Delta p_t}_{\text{participação}} .</annotation></semantics></math><span class="equation-number">(4)</span></span> O primeiro termo é o número de empregos necessário para absorver o crescimento da população com a participação constante. O segundo reflete as pessoas que entram ou saem da força de trabalho.</p>
+</details>
+<h2 id="dez-anos-de-ciclos">Dez anos de ciclos</h2>
+<p>O Gráfico <a href="#g:hist">1</a> compara a geração de empregos com o breakeven desde 2013, e a Tabela <a href="#t:fases">1</a> resume os principais períodos. Na recessão de 2015 e 2016, o emprego caiu em média 129 mil por mês enquanto a força de trabalho continuava crescendo, e a taxa de desemprego subiu de 6,6% para 12,1%. Na recuperação, entre 2017 e 2019, a geração de empregos superou o breakeven em apenas 32 mil por mês, e o desemprego caiu cerca de um ponto em três anos.</p>
+<figure class="note-figure" id="g:hist"><figcaption><h3>Gráfico 1: A geração de empregos supera o breakeven desde meados de 2021</h3><p class="figure-subtitle">Mil empregos por mês, médias de 12 meses. Áreas cinzas: recessões (CODACE).</p></figcaption><div data-chart="hist" data-title="A geração de empregos supera o breakeven desde meados de 2021"><img class="chart-fallback" src="assets/breakeven/pt_hist.svg" alt="A geração de empregos supera o breakeven desde meados de 2021"></div><p class="figure-source">Fonte: IBGE (PNAD Contínua); cálculos do autor.</p><details class="chart-data" data-table="hist"><summary>Ver dados</summary><p><a href="assets/breakeven/g1_historico.csv" download>Baixar CSV</a></p><div class="table-scroll" role="region" tabindex="0" aria-label="Gráfico 1: A geração de empregos supera o breakeven desde meados de 2021"></div></details></figure>
+<p>Em 2020, o emprego caiu 688 mil por mês, mas a força de trabalho também encolheu, cerca de 480 mil por mês, porque muitas pessoas deixaram de procurar trabalho. O desemprego subiu 3,1 p.p.; se a participação tivesse ficado constante, as mesmas perdas teriam elevado a taxa em cerca de 9 p.p. Em 2021 e 2022 ocorreu o contrário: a volta dessas pessoas à força de trabalho elevou o breakeven para 220 mil por mês, a geração de empregos foi ainda maior e o desemprego caiu mais de seis pontos. A folga medida em 12 meses é positiva desde julho de 2021 e levou a taxa de desemprego a 5,1% em dezembro de 2025, o menor nível da série.</p>
+<section class="note-table" id="t:fases"><h3>Tabela 1: Geração de empregos, breakeven e desemprego por período</h3><p class="figure-subtitle">Médias mensais, em mil. Variação do desemprego desde o fim do período anterior.</p><div class="table-scroll" role="region" aria-label="Tabela 1: Geração de empregos, breakeven e desemprego por período" tabindex="0"><table><thead><tr><th></th><th></th><th colspan="3">Breakeven</th><th></th><th colspan="2">Desemprego</th></tr><tr><th scope="col">Período</th><th scope="col">Geração de empregos</th><th scope="col">Total</th><th scope="col">Demografia</th><th scope="col">Participação</th><th scope="col">Folga</th><th scope="col">Variação (p.p.)</th><th scope="col">Fim (%)</th></tr></thead><tbody><tr><th scope="row">2013 a 2014</th><td>89</td><td>75</td><td>97</td><td>−22</td><td>14</td><td>−0,3</td><td>6,6</td></tr><tr><th scope="row">2015 a 2016</th><td>−129</td><td>104</td><td>82</td><td>22</td><td>−233</td><td>+5,6</td><td>12,1</td></tr><tr><th scope="row">2017 a 2019</th><td>130</td><td>98</td><td>70</td><td>28</td><td>32</td><td>−1,1</td><td>11,1</td></tr><tr><th scope="row">2020</th><td>−688</td><td>−431</td><td>61</td><td>−493</td><td>−256</td><td>+3,1</td><td>14,2</td></tr><tr><th scope="row">2021 a 2022</th><td>494</td><td>220</td><td>61</td><td>159</td><td>274</td><td>−6,2</td><td>7,9</td></tr><tr><th scope="row">2023 a 2025</th><td>152</td><td>66</td><td>64</td><td>3</td><td>86</td><td>−2,9</td><td>5,1</td></tr><tr><th scope="row">Últimos 12 meses</th><td>88</td><td>60</td><td>65</td><td>−5</td><td>29</td><td>−0,3</td><td>5,3</td></tr></tbody></table></div><p class="figure-source">Últimos 12 meses: setembro de 2025 a agosto de 2026. Componentes podem não somar por arredondamento.</p></section>
+<h2 id="a-queda-do-componente-demográfico">A queda do componente demográfico</h2>
+<p>Em 2013, o Brasil precisava gerar cerca de 100 mil empregos por mês apenas para acompanhar o crescimento da população em idade de trabalhar. Hoje, esse número é de 65 mil (Gráfico <a href="#g:decomp">2</a>).</p>
+<p>Essa queda acompanha a desaceleração da população de 14 anos ou mais, que cresceu 1,40% nos 12 meses até março de 2013 e 0,76% nos 12 meses até agosto de 2026 (Gráfico <a href="#g:pia">3</a>). As gerações que chegam agora à idade de trabalhar nasceram depois da queda da fecundidade e são menores, e o IBGE projeta que a população total pare de crescer em 2041 (IBGE, 2024). A taxa de participação, por outro lado, não tem tendência definida: fora da pandemia, ficou entre 61,4% e 63,6% desde 2012 e estava em 62,2% em agosto. Ela explica as oscilações do breakeven de um ano para outro, enquanto a queda ao longo da década vem da demografia.</p>
+<figure class="note-figure" id="g:decomp"><figcaption><h3>Gráfico 2: O componente demográfico do breakeven caiu um terço desde 2013</h3><p class="figure-subtitle">Breakeven por componente, mil empregos por mês. Médias anuais e dos últimos 12 meses.</p></figcaption><div data-chart="decomp" data-title="O componente demográfico do breakeven caiu um terço desde 2013"><img class="chart-fallback" src="assets/breakeven/pt_decomp.svg" alt="O componente demográfico do breakeven caiu um terço desde 2013"></div><p class="figure-source">Fonte: IBGE (PNAD Contínua); cálculos do autor.</p><details class="chart-data" data-table="decomp"><summary>Ver dados</summary><p><a href="assets/breakeven/g2_componentes.csv" download>Baixar CSV</a></p><div class="table-scroll" role="region" tabindex="0" aria-label="Gráfico 2: O componente demográfico do breakeven caiu um terço desde 2013"></div></details></figure>
+<figure class="note-figure" id="g:pia"><figcaption><h3>Gráfico 3: O crescimento da população em idade de trabalhar quase caiu à metade</h3><p class="figure-subtitle">População de 14 anos ou mais, variação em 12 meses, %. Áreas cinzas: recessões.</p></figcaption><div data-chart="pia" data-title="O crescimento da população em idade de trabalhar quase caiu à metade"><img class="chart-fallback" src="assets/breakeven/pt_pia.svg" alt="O crescimento da população em idade de trabalhar quase caiu à metade"></div><p class="figure-source">Fonte: IBGE (PNAD Contínua); cálculos do autor.</p><details class="chart-data" data-table="pia"><summary>Ver dados</summary><p><a href="assets/breakeven/g3_pia.csv" download>Baixar CSV</a></p><div class="table-scroll" role="region" tabindex="0" aria-label="Gráfico 3: O crescimento da população em idade de trabalhar quase caiu à metade"></div></details></figure>
+<h2 id="o-breakeven-em-2025-e-2026">O breakeven em 2025 e 2026</h2>
+<p>No segundo semestre de 2025, a geração de empregos desacelerou, com a média de 12 meses passando de 155 mil por mês em agosto para 97 mil em dezembro (Gráfico <a href="#g:recente">4</a>). Mesmo assim, o desemprego continuou caindo cerca de 1 p.p. ao ano, porque a participação recuou e levou o breakeven de 63 mil para perto de zero. A folga terminou dezembro em cerca de 99 mil empregos por mês.</p>
+<p>Em 2026, a participação parou de cair, e sua contribuição para o breakeven passou de <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>66</mn></mrow><annotation encoding="application/x-tex">-66</annotation></semantics></math> mil para <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">-5</annotation></semantics></math> mil por mês, o que levou o breakeven de volta a 60 mil. A geração de empregos caiu para 62 mil em junho e voltou a 88 mil em agosto, um pouco abaixo do nível de dezembro. Entre dezembro e agosto, a folga diminuiu cerca de 70 mil por mês, para 28,5 mil, e 61 mil dessa redução vieram da alta do breakeven. Com isso, a queda do desemprego em 12 meses passou de 1,1 p.p. em dezembro para 0,3 p.p. em agosto.</p>
+<h2 id="uma-regra-prática-para-o-dado-mensal">Uma regra prática para o dado mensal</h2>
+<p>A equação <a href="#eq:rule">(3)</a> permite traduzir um cenário para a geração de empregos em uma trajetória para o desemprego, desde que se tenha uma hipótese para o breakeven. Essa conversão quase não mudou desde 2013, porque a força de trabalho varia devagar (Gráfico <a href="#g:regra">5</a>): 10 mil empregos por mês acima do breakeven, durante um ano, reduzem o desemprego em cerca de 0,1 p.p. A Tabela <a href="#t:cenarios">2</a> aplica a regra a uma geração de 90 mil empregos por mês, próxima da leitura mais recente. Se a participação ficar estável, o breakeven fica igual ao componente demográfico, de 65 mil, e o desemprego cai mais 0,3 p.p. em 12 meses. Se a participação crescer como em 2019, o breakeven sobe para cerca de 90 mil e o desemprego para de cair. No ritmo de 2024, o breakeven chega a 120 mil, e a mesma geração de empregos eleva o desemprego em 0,3 p.p.</p>
+<section class="note-table" id="t:cenarios"><h3>Tabela 2: O que uma geração de 90 mil empregos por mês significa para o desemprego</h3><p class="figure-subtitle">Geração de empregos fixa em 90 mil por mês; breakeven sob três hipóteses para a participação.</p><div class="table-scroll" role="region" aria-label="Tabela 2: O que uma geração de 90 mil empregos por mês significa para o desemprego" tabindex="0"><table><thead><tr><th scope="col">Participação</th><th scope="col">Breakeven (mil/mês)</th><th scope="col">Folga (mil/mês)</th><th scope="col">Variação em 12m (p.p.)</th></tr></thead><tbody><tr><th scope="row">Estável</th><td>65</td><td>25</td><td>−0,3</td></tr><tr><th scope="row">Crescendo como em 2019</th><td>90</td><td>0</td><td>0,0</td></tr><tr><th scope="row">Crescendo como em 2024</th><td>120</td><td>−30</td><td>+0,3</td></tr></tbody></table></div><p class="figure-source">Cálculos do autor, com força de trabalho de 109 milhões.</p></section><section class="calc" aria-labelledby="calculator-title"><h3 id="calculator-title">Experimente a regra</h3><p class="figure-subtitle">Variação aproximada em 12 meses, com a força de trabalho de agosto de 2026.</p><div class="calc-grid"><div><label for="in-jobs"><span>Geração de empregos, mil por mês</span><output id="out-jobs" for="in-jobs">90</output></label><input id="in-jobs" type="range" min="-100" max="300" step="5" value="90"></div><div><label for="in-be"><span>Breakeven, mil por mês</span><output id="out-be" for="in-be">65</output></label><input id="in-be" type="range" min="-100" max="300" step="5" value="65"><div class="presets" role="group" aria-label="Cenários de participação"><button type="button" data-be="65" aria-pressed="true">Participação estável</button><button type="button" data-be="90" aria-pressed="false">Ritmo de 2019</button><button type="button" data-be="120" aria-pressed="false">Ritmo de 2024</button></div></div></div><p class="calc-out" id="calc-out" aria-live="polite"></p><noscript><p>Ative o JavaScript para usar o simulador.</p></noscript></section>
+<figure class="note-figure" id="g:recente"><figcaption><h3>Gráfico 4: O breakeven caiu no fim de 2025 e subiu em 2026</h3><p class="figure-subtitle">Mil empregos por mês, médias de 12 meses. Valores de agosto de 2026 à direita.</p></figcaption><div data-chart="recente" data-title="O breakeven caiu no fim de 2025 e subiu em 2026"><img class="chart-fallback" src="assets/breakeven/pt_recente.svg" alt="O breakeven caiu no fim de 2025 e subiu em 2026"></div><p class="figure-source">Fonte: IBGE (PNAD Contínua); cálculos do autor.</p><details class="chart-data" data-table="recente"><summary>Ver dados</summary><p><a href="assets/breakeven/g4_recente.csv" download>Baixar CSV</a></p><div class="table-scroll" role="region" tabindex="0" aria-label="Gráfico 4: O breakeven caiu no fim de 2025 e subiu em 2026"></div></details></figure>
+<figure class="note-figure" id="g:regra"><figcaption><h3>Gráfico 5: Uma folga de 10 mil empregos por mês reduz o desemprego em cerca de 0,1 p.p. em um ano</h3><p class="figure-subtitle">Cada ponto é um mês, de março de 2013 a agosto de 2026. A reta usa a força de trabalho de agosto de 2026.</p></figcaption><div data-chart="regra" data-title="Uma folga de 10 mil empregos por mês reduz o desemprego em cerca de 0,1 p.p. em um ano"><img class="chart-fallback" src="assets/breakeven/pt_regra.svg" alt="Uma folga de 10 mil empregos por mês reduz o desemprego em cerca de 0,1 p.p. em um ano"></div><p class="figure-source">Fonte: IBGE (PNAD Contínua); cálculos do autor.</p><details class="chart-data" data-table="regra"><summary>Ver dados</summary><p><a href="assets/breakeven/g5_regra.csv" download>Baixar CSV</a></p><div class="table-scroll" role="region" tabindex="0" aria-label="Gráfico 5: Uma folga de 10 mil empregos por mês reduz o desemprego em cerca de 0,1 p.p. em um ano"></div></details></figure>
+<h2 id="implicações">Implicações</h2>
+<p>Com o componente demográfico em torno de 65 mil, um ritmo de geração de empregos que em 2013 apenas mantinha o desemprego estável hoje é suficiente para reduzi-lo. Por isso, comparar o número atual com as médias da década passada tende a subestimar o aperto do mercado de trabalho.</p>
+<p>Parte da queda do desemprego nos últimos anos veio do crescimento mais lento da força de trabalho. Para os salários, a origem dessa queda importa pouco, porque eles respondem à escassez de trabalhadores disponíveis. Ela importa, porém, para a persistência do desemprego baixo, que pode se manter com uma geração de empregos menor do que no passado.</p>
+<p>A folga em média de 12 meses ajuda a interpretar a variação anual do desemprego. Uma folga positiva é compatível com queda anual da taxa, mesmo que ela suba em alguns meses. Em agosto, ela estava em 28,5 mil por mês, menos de um terço do nível de dezembro. Se a participação continuar se recuperando, o breakeven deve subir mais e a queda do desemprego pode parar, mesmo com a geração de empregos estável.</p>
+<h2 id="dados">Dados</h2>
+<p>Dados da PNAD Contínua de março de 2012 a agosto de 2026, em trimestres móveis, com fluxos apresentados em médias de 12 meses. A pesquisa inclui trabalho informal e não é diretamente comparável ao Novo CAGED. O breakeven é retrospectivo e depende da participação.</p>
+<section class="references"><h2 id="referências">Referências</h2>
+<p>=1.2em CODACE, Comitê de Datação de Ciclos Econômicos. <em>Comunicados de datação de ciclos econômicos</em>. Rio de Janeiro: FGV IBRE.</p>
+<p>=1.2em IBGE (2024). <em>Projeções da população do Brasil e das Unidades da Federação: revisão 2024</em>. Rio de Janeiro: IBGE.</p>
+<p>=1.2em IBGE. <em>Pesquisa Nacional por Amostra de Domicílios Contínua</em>. Séries mensais. Rio de Janeiro: IBGE.</p>
+<p><a href="https://www.frbsf.org/research-and-insights/publications/economic-letter/2024/07/breakeven-employment-growth/">=1.2em Petrosky Nadeau, N.; Stewart, S. A. (2024). Breakeven employment growth. FRBSF Economic Letter 2024/18. Federal Reserve Bank of San Francisco, 8 de julho de 2024.</a></p></section></div></article>
+<p class="article-back"><a href="economics.html#letters">Voltar para Letters</a></p></main>
+<footer class="site-footer"><p>© 2026 Rafael Pires</p></footer>
+<script src="assets/breakeven/data.js"></script><script src="assets/breakeven/charts.js"></script>
+<script>document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(!link)return;const target=document.getElementById(link.hash.slice(1));const details=target&&target.closest('details');if(details)details.open=true;});</script>
+</body></html>
