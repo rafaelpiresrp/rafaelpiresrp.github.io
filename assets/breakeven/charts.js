@@ -10,9 +10,12 @@
   } : {
     jobs:'Job creation', be:'Breakeven', dem:'Demographic component', part:'Participation', total:'Total breakeven', pop:'Population growth', gap:'Employment gap', change:'Unemployment change', full:'Full period', recent:'Since 2023', date:'Date', thousand:'thousand jobs/month', percent:'%', points:'p.p.', annual:'12 months to Aug 26', hint:'Use the arrow keys to read values.', rule:'Rule of thumb', last:'Aug 26'
   };
-  const colors={jobs:'#aeb9a3',be:'#f4ebd6',dem:'#d8a474',part:'#849965',total:'#f4ebd6',pop:'#d8a474',gap:'#d8a474'};
+  /* Palette for a white background, same as the static SVGs */
+  const colors={jobs:'#b6bcb3',be:'#233d2c',dem:'#a46a3b',part:'#738557',total:'#233d2c',pop:'#a46a3b',gap:'#a46a3b'};
+  const INK='#000000';
   const number = (value, digits=1) => new Intl.NumberFormat(pt?'pt-BR':'en-GB',{minimumFractionDigits:digits,maximumFractionDigits:digits}).format(value);
   const date = key => new Intl.DateTimeFormat(pt?'pt-BR':'en-GB',{month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(key+'-15T12:00:00Z'));
+  const axisNum = (value,digits) => number(value,digits).replace(/^-/,'\u2212');
   const el = (name,attrs={},text='') => {const n=document.createElementNS(NS,name); for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v); if(text)n.textContent=text;return n;};
   function tickStep(span,count=5){const raw=span/count,p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;return (m<=1?1:m<=2?2:m<=2.5?2.5:m<=5?5:10)*p;}
   const specs={
@@ -65,6 +68,8 @@
     if(spec.type!=='scatter')spec.series.forEach((series,i)=>{
       const button=document.createElement('button');button.type='button';button.setAttribute('aria-pressed','true');button.className='legend-item';
       const dot=document.createElement('span');dot.className='legend-dot';dot.style.background=colors[series[1]];
+      if(series[2]==='line')dot.classList.add('legend-line');
+      if(series[2]==='dot')dot.classList.add('legend-point');
       button.append(dot,document.createTextNode(words[series[1]]));
       button.addEventListener('click',()=>{visible[i]=!visible[i];button.setAttribute('aria-pressed',String(visible[i]));draw();});
       legend.append(button);
@@ -95,46 +100,59 @@
       svg.append(el('title',{},host.dataset.title));
       const clip=el('clipPath',{id:'clip-'+key});clip.append(el('rect',{x:bounds.l,y:bounds.t,width:bounds.r-bounds.l,height:bounds.b-bounds.t}));const defs=el('defs');defs.append(clip);svg.append(defs);
       const bg=el('g',{'clip-path':`url(#clip-${key})`});svg.append(bg);
-      if(key==='hist'||key==='pia')for(const [a,b] of [[2014.25,2017],[2020,2020.5]])bg.append(el('rect',{x:X(a),y:bounds.t,width:X(b)-X(a),height:bounds.b-bounds.t,fill:'#ffffff','fill-opacity':'.045'}));
+      /* Axis layer: inward ticks on all four sides and a closed frame, drawn above the data (pgfplots style) */
+      const axes=el('g',{stroke:INK,'stroke-width':'.8',fill:'none'});
+      const T=5;
+      const xtick=x=>{const px=X(x);axes.append(el('line',{x1:px,x2:px,y1:bounds.b,y2:bounds.b-T}));axes.append(el('line',{x1:px,x2:px,y1:bounds.t,y2:bounds.t+T}));};
+      const ytick=y=>{const py=Y(y);axes.append(el('line',{x1:bounds.l,x2:bounds.l+T,y1:py,y2:py}));axes.append(el('line',{x1:bounds.r,x2:bounds.r-T,y1:py,y2:py}));};
+      if(key==='hist'||key==='pia')for(const [a,b] of [[2014.25,2017],[2020,2020.5]])bg.append(el('rect',{x:X(a),y:bounds.t,width:X(b)-X(a),height:bounds.b-bounds.t,fill:'#000000','fill-opacity':'.07'}));
       let ticks;
       if(key==='pia')ticks=[.6,.8,1,1.2,1.4,1.6];
       else {const step=tickStep(ymax-ymin);ticks=[];for(let y=Math.ceil(ymin/step)*step;y<=ymax;y+=step)ticks.push(y);}
-      for(const y of ticks){svg.append(el('line',{x1:bounds.l,x2:bounds.r,y1:Y(y),y2:Y(y),stroke:y===0?'#86917e':'#52604d','stroke-opacity':y===0?'.6':'.3','stroke-width':'.7'}));svg.append(el('text',{x:bounds.l-9,y:Y(y)+4,'text-anchor':'end',class:'axis-label'},number(y,key==='pia'?1:0)));}
+      for(const y of ticks){
+        if(y===0)bg.append(el('line',{x1:bounds.l,x2:bounds.r,y1:Y(0),y2:Y(0),stroke:INK,'stroke-width':'.6','stroke-dasharray':'3 3'}));
+        ytick(y);
+        svg.append(el('text',{x:bounds.l-7,y:Y(y)+4,'text-anchor':'end',class:'axis-label'},axisNum(y,key==='pia'?1:0)));
+      }
       if(spec.type==='scatter'){
-        svg.append(el('text',{transform:'rotate(-90)',x:-(bounds.t+bounds.b)/2,y:13,'text-anchor':'middle',class:'axis-label'},pt?'Variação do desemprego (p.p.)':'Unemployment change (p.p.)'));
+        svg.append(el('text',{transform:'rotate(-90)',x:-(bounds.t+bounds.b)/2,y:14,'text-anchor':'middle',class:'axis-label'},pt?'Variação do desemprego (p.p.)':'Unemployment change (p.p.)'));
         const xticks=width<420?[-300,0,300]:[-450,-300,-150,0,150,300,450];
-        for(const x of xticks)svg.append(el('text',{x:X(x),y:bounds.b+22,'text-anchor':'middle',class:'axis-label'},number(x,0)));
-        svg.append(el('text',{x:(bounds.l+bounds.r)/2,y:height-8,'text-anchor':'middle',class:'axis-label'},pt?'Folga, mil empregos/mês':'Gap, thousand jobs/month'));
-        bg.append(el('line',{x1:X(-450),y1:Y(-1200*(-450)/109262),x2:X(520),y2:Y(-1200*520/109262),stroke:colors.part,'stroke-width':1.3}));
+        for(const x of xticks){xtick(x);svg.append(el('text',{x:X(x),y:bounds.b+18,'text-anchor':'middle',class:'axis-label'},axisNum(x,0)));}
+        bg.append(el('line',{x1:X(0),x2:X(0),y1:bounds.t,y2:bounds.b,stroke:INK,'stroke-width':'.6','stroke-dasharray':'3 3'}));
+        svg.append(el('text',{x:(bounds.l+bounds.r)/2,y:height-10,'text-anchor':'middle',class:'axis-label'},pt?'Folga, mil empregos/mês':'Gap, thousand jobs/month'));
+        bg.append(el('line',{x1:X(-450),y1:Y(-1200*(-450)/109262),x2:X(520),y2:Y(-1200*520/109262),stroke:INK,'stroke-width':1}));
       }else if(spec.type==='components'){
         for(const [i,r] of rows.entries()){
           if(width<420&&i%2===1&&i!==rows.length-1)continue;
           const txt=i===rows.length-1?'12m':r.periodo.slice(2);
-          svg.append(el('text',{x:X(r.x),y:bounds.b+22,'text-anchor':'middle',class:'axis-label'},txt));
+          xtick(r.x);
+          svg.append(el('text',{x:X(r.x),y:bounds.b+18,'text-anchor':'middle',class:'axis-label'},txt));
         }
       }else{
         const span=xmax-xmin,step=span>8?(width<500?3:2):1;
-        for(let y=Math.ceil(xmin);y<xmax;y+=step)svg.append(el('text',{x:X(y),y:bounds.b+22,'text-anchor':'middle',class:'axis-label'},String(y)));
+        for(let y=Math.ceil(xmin);y<xmax;y+=step){xtick(y);svg.append(el('text',{x:X(y),y:bounds.b+18,'text-anchor':'middle',class:'axis-label'},String(y)));}
       }
       plot=el('g',{'clip-path':`url(#clip-${key})`});svg.append(plot);
       if(spec.type==='scatter'){
-        rows.forEach((r,i)=>plot.append(el('circle',{cx:X(r.folga),cy:Y(r.var_desemprego),r:i===rows.length-1?4.5:2.6,fill:i===rows.length-1?colors.dem:colors.jobs,'fill-opacity':i===rows.length-1?1:.6})));
+        rows.forEach((r,i)=>plot.append(el('circle',{cx:X(r.folga),cy:Y(r.var_desemprego),r:i===rows.length-1?4.5:2.4,fill:i===rows.length-1?colors.dem:colors.be,'fill-opacity':i===rows.length-1?1:.42,stroke:i===rows.length-1?'#ffffff':'none','stroke-width':1})));
       }else if(spec.type==='components'){
         const bw=(bounds.r-bounds.l)/(xmax-xmin)*.65;
         rows.forEach(r=>{
           if(visible[0])plot.append(el('rect',{x:X(r.x)-bw/2,y:Y(r.demografia),width:bw,height:Y(0)-Y(r.demografia),fill:colors.dem}));
           if(visible[1]){const bottom=r.participacao>0?(visible[0]?r.demografia:0):0,top=bottom+r.participacao;plot.append(el('rect',{x:X(r.x)-bw/2,y:Math.min(Y(top),Y(bottom)),width:bw,height:Math.abs(Y(top)-Y(bottom)),fill:colors.part}));}
-          if(visible[2])plot.append(el('circle',{cx:X(r.x),cy:Y(r.total),r:3.4,fill:colors.total,stroke:'#213024','stroke-width':1}));
+          if(visible[2])plot.append(el('circle',{cx:X(r.x),cy:Y(r.total),r:3.4,fill:colors.total,stroke:'#ffffff','stroke-width':1}));
         });
       }else{
         spec.series.forEach(([field,color,type],j)=>{
           if(!visible[j])return;
           if(type==='bar'){
             const bw=Math.max(1,(bounds.r-bounds.l)/(xmax-xmin)*.06);
-            for(const r of rows)plot.append(el('rect',{x:X(r.t)-bw/2,y:Math.min(Y(r[field]),Y(0)),width:bw,height:Math.abs(Y(r[field])-Y(0)),fill:colors[color],'fill-opacity':'.62'}));
-          }else plot.append(el('path',{d:rows.map((r,i)=>(i?'L':'M')+X(r.t).toFixed(2)+','+Y(r[field]).toFixed(2)).join(' '),fill:'none',stroke:colors[color],'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'}));
+            for(const r of rows)plot.append(el('rect',{x:X(r.t)-bw/2,y:Math.min(Y(r[field]),Y(0)),width:bw,height:Math.abs(Y(r[field])-Y(0)),fill:colors[color]}));
+          }else plot.append(el('path',{d:rows.map((r,i)=>(i?'L':'M')+X(r.t).toFixed(2)+','+Y(r[field]).toFixed(2)).join(' '),fill:'none',stroke:colors[color],'stroke-width':1.4,'stroke-linejoin':'round','stroke-linecap':'round'}));
         });
       }
+      axes.append(el('rect',{x:bounds.l,y:bounds.t,width:bounds.r-bounds.l,height:bounds.b-bounds.t}));
+      svg.append(axes);
       overlay=el('g',{'pointer-events':'none'});svg.append(overlay);
       function nearest(event){const box=svg.getBoundingClientRect(),px=(event.clientX-box.left)*width/box.width,py=(event.clientY-box.top)*height/box.height;let min=Infinity,idx=0;rows.forEach((r,i)=>{const x=spec.type==='scatter'?r.folga:spec.type==='components'?r.x:r.t;const dist=Math.pow(X(x)-px,2)+(spec.type==='scatter'?Math.pow(Y(r.var_desemprego)-py,2):0);if(dist<min){min=dist;idx=i;}});active=idx;show();}
       svg.addEventListener('pointermove',nearest);svg.addEventListener('pointerdown',nearest);
@@ -151,8 +169,8 @@
       const entries=spec.type==='scatter'?[[words.gap,r.folga,words.thousand,2],[words.change,r.var_desemprego,words.points,3]]:spec.series.map(([field,color],i)=>visible[i]?[words[color],r[field],key==='pia'?words.percent:words.thousand,key==='pia'?3:2]:null).filter(Boolean);
       for(const [label,value,unit,digits] of entries){const line=document.createElement('div');line.textContent=`${label}: ${number(value,digits)} ${unit}`;tip.append(line);}
       const x=X(spec.type==='scatter'?r.folga:spec.type==='components'?r.x:r.t);
-      if(spec.type==='scatter')overlay.append(el('circle',{cx:x,cy:Y(r.var_desemprego),r:6,fill:'none',stroke:colors.total,'stroke-width':1.5}));
-      else overlay.append(el('line',{x1:x,x2:x,y1:bounds.t,y2:bounds.b,stroke:'#ece4d3','stroke-opacity':'.5','stroke-width':1,'stroke-dasharray':'3 4'}));
+      if(spec.type==='scatter')overlay.append(el('circle',{cx:x,cy:Y(r.var_desemprego),r:6,fill:'none',stroke:INK,'stroke-width':1.2}));
+      else overlay.append(el('line',{x1:x,x2:x,y1:bounds.t,y2:bounds.b,stroke:INK,'stroke-opacity':'.45','stroke-width':.8,'stroke-dasharray':'2 3'}));
       tip.hidden=false;tip.style.left='0px';tip.style.top='14px';
       const available=canvas.clientWidth,tw=tip.offsetWidth;
       const scale=available/width;
