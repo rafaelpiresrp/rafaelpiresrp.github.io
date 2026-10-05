@@ -2,12 +2,12 @@
    Valid types: letters, working_papers, what_if.
    Example:
    {
-     titulo: "Article title",
+     titulo: "Breakeven employment growth in Brazil",
      area: "economics",
      tipo: "letters",
      data: "2026-10-04",
      resumo: "",
-     arquivo: "my_article.html"
+     arquivo: "breakeven_brazil.html"
    }
 */
 window.PUBLICACOES = [];
