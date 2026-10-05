@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breakeven employment growth in Brazil</title>
+<meta name="author" content="Rafael Pires">
+<meta name="description" content="The pace of job creation that keeps unemployment stable in Brazil has fallen by a third since 2013 and picked up again in 2026.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Breakeven employment growth in Brazil">
+<meta property="og:description" content="The pace of job creation that keeps unemployment stable in Brazil has fallen by a third since 2013 and picked up again in 2026.">
+<style>
+  :root {
+    color-scheme: light;
+    --surface: #ffffff;
+    --text: #000000;
+    --box: #f1f1f1;
+    --rule: #000000;
+    --grid: #dcdcdc;
+    --axis: #000000;
+    --shade: #efefef;
+    --bar: #c6c6c6;
+    --bar-end: #8c8c8c;
+    --orange: #eb6834;
+    --aqua: #1baf7a;
+    --line: #000000;
+    --dot: #6e6e6e;
+    --slope: #8c8c8c;
+    --sep: #b5b5b5;
+    --hover: rgba(0, 0, 0, 0.05);
+    --tip-border: #cfcfcf;
+    --tip-shadow: rgba(0, 0, 0, 0.12);
+  }
+  /* Dark mode is opt in: set data-theme="dark" on <html> if the site has a dark theme. */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface: #1a1a19;
+    --text: #ffffff;
+    --box: #262625;
+    --rule: #ffffff;
+    --grid: #3a3a38;
+    --axis: #e6e6e3;
+    --shade: #252524;
+    --bar: #5c5c59;
+    --bar-end: #9a9a96;
+    --orange: #d95926;
+    --aqua: #199e70;
+    --line: #f2f2f0;
+    --dot: #b8b8b4;
+    --slope: #8f8f8b;
+    --sep: #5a5a57;
+    --hover: rgba(255, 255, 255, 0.06);
+    --tip-border: #4a4a47;
+    --tip-shadow: rgba(0, 0, 0, 0.5);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--text);
+    font-family: "TeX Gyre Pagella", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", P052, Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
+  }
+  .note { max-width: 740px; margin: 0 auto; padding: 44px 16px 64px; }
+  a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  /* Header */
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; font-weight: 700; letter-spacing: -0.2px; }
+  .dek { font-style: italic; font-size: 19px; line-height: 1.4; margin: 0 0 14px; }
+  .byline { font-size: 14.5px; margin: 0 0 6px; }
+  .top-rule { border: 0; border-top: 1px solid var(--rule); margin: 6px 0 24px; }
+
+  /* Text */
+  h2 { font-size: 21px; line-height: 1.3; margin: 36px 0 8px; font-weight: 700; }
+  p { margin: 0 0 12px; }
+  .box { background: var(--box); padding: 14px 18px 12px; margin: 24px 0; }
+  .box-title { font-weight: 700; font-size: 15.5px; margin: 0 0 6px; }
+  .box p, .box li { font-size: 15.5px; }
+  .box ul { margin: 0; padding-left: 1.05em; }
+  .box li { margin: 5px 0; }
+
+  /* Equations, written in plain HTML so the page has no external dependency */
+  .eq { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0 12px; }
+  .eq .m { flex: 1; text-align: center; font-size: 17px; white-space: nowrap; overflow-x: auto; }
+  .eq .n { flex: none; font-size: 15.5px; }
+  .m i, .im i { font-style: italic; }
+  .im { white-space: nowrap; }
+  .eq.tall { align-items: flex-start; }
+  .eq.tall .n { padding-top: 1px; }
+  .m sub, .im sub { font-size: 0.72em; line-height: 0; }
+  .ov { text-decoration: overline; }
+  .term { display: inline-flex; flex-direction: column; align-items: center; vertical-align: top; }
+  .brace { display: block; width: 100%; height: 6px; margin-top: 2px; border: 1px solid var(--text); border-top: 0; }
+  .brace-l { font-size: 12.5px; font-style: normal; line-height: 1.3; margin-top: 1px; }
+
+  /* Figures */
+  figure { margin: 30px 0; padding: 0; }
+  .fig-head { border-top: 1px solid var(--rule); padding-top: 7px; margin-bottom: 8px; }
+  .fig-title { font-weight: 700; font-size: 15.5px; line-height: 1.35; }
+  .fig-sub { font-size: 14px; line-height: 1.4; margin-top: 2px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13.5px; margin: 0 0 6px; }
+  .key { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .sw { display: inline-block; flex: none; }
+  .sw-bar { width: 11px; height: 11px; }
+  .sw-line { width: 16px; height: 2px; }
+  .sw-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .plot { position: relative; width: 100%; }
+  .plot svg { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
+  .plot svg:focus { outline: none; }
+  .plot svg:focus-visible { outline: 1px dotted var(--text); outline-offset: 4px; }
+  .src { font-size: 12.5px; line-height: 1.4; margin-top: 6px; }
+  .hint { font-size: 12.5px; }
+
+  svg text { fill: var(--text); font-size: 12px; font-family: inherit; }
+  svg .tick { font-variant-numeric: tabular-nums lining-nums; }
+  svg .grid { stroke: var(--grid); stroke-width: 1; }
+  svg .axis { stroke: var(--axis); stroke-width: 1; }
+  svg .shade { fill: var(--shade); }
+  svg .bar { fill: var(--bar); }
+  svg .bar-dem { fill: var(--orange); }
+  svg .bar-part { fill: var(--aqua); }
+  svg .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  svg .ln-be { stroke: var(--line); }
+  svg .ln-or { stroke: var(--orange); }
+  svg .slope { stroke: var(--slope); stroke-width: 1.5; }
+  svg .sep { stroke: var(--sep); stroke-width: 1; }
+  svg .lead { stroke: var(--slope); stroke-width: 1; }
+  svg .pt { fill: var(--dot); fill-opacity: 0.45; }
+  svg .ring { stroke: var(--surface); stroke-width: 2; }
+  svg .f-line { fill: var(--line); }
+  svg .f-or { fill: var(--orange); }
+  svg .f-end { fill: var(--bar-end); }
+  svg .xh { stroke: var(--text); stroke-opacity: 0.35; stroke-width: 1; }
+  svg .hl { fill: var(--hover); }
+  svg .sel { fill: none; stroke: var(--text); stroke-width: 1.5; }
+
+  .tip {
+    position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none;
+    background: var(--surface); border: 1px solid var(--tip-border); box-shadow: 0 2px 10px var(--tip-shadow);
+    padding: 6px 10px 7px; font-size: 13px; line-height: 1.4; white-space: nowrap;
+    opacity: 0; transition: opacity 0.08s;
+  }
+  .tip.on { opacity: 1; }
+  .tip-h { margin-bottom: 2px; }
+  .tip-r { display: flex; align-items: center; gap: 7px; }
+  .tip-r b { font-weight: 700; font-variant-numeric: tabular-nums lining-nums; }
+  .tip-k { display: inline-block; width: 12px; height: 2.5px; flex: none; }
+
+  /* Data view under each chart */
+  details.data { margin-top: 6px; font-size: 13px; }
+  details.data summary { cursor: pointer; display: inline-block; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  details.data summary::-webkit-details-marker { display: none; }
+  details.data summary::marker { content: ""; }
+  .data-bar { display: flex; justify-content: flex-end; margin: 6px 0 4px; }
+  button.dl, .presets button {
+    font: inherit; font-size: 13px; color: var(--text); background: transparent; cursor: pointer;
+    border: 1px solid var(--text); padding: 2px 9px;
+  }
+  button.dl:hover, .presets button:hover { background: var(--hover); }
+  .tbl-wrap { max-height: 280px; overflow: auto; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .tbl-wrap table { font-size: 13px; }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums lining-nums; }
+  th, td { padding: 3px 8px; text-align: right; vertical-align: bottom; }
+  th:first-child, td:first-child { text-align: left; padding-left: 0; }
+  th:last-child, td:last-child { padding-right: 0; }
+  thead th { font-weight: 400; }
+  .table-wrap { overflow-x: auto; }
+  .ttable { font-size: 14px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); min-width: 560px; }
+  .ttable thead tr:last-child th { border-bottom: 1px solid var(--rule); }
+  .ttable th.grp { text-align: center; padding-bottom: 0; }
+  .ttable th.grp span { display: block; border-bottom: 1px solid var(--rule); padding-bottom: 2px; }
+  .ttable tr.total td { border-top: 1px solid var(--rule); }
+  .ttable.narrow { min-width: 480px; }
+
+  /* Rule of thumb calculator */
+  .calc { border-top: 1px solid var(--rule); padding-top: 8px; margin: 30px 0; }
+  .calc-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 8px 0 10px; }
+  .field label { display: flex; justify-content: space-between; gap: 12px; font-size: 14.5px; }
+  .field output { font-weight: 700; font-variant-numeric: tabular-nums lining-nums; }
+  .field input[type="range"] { width: 100%; margin: 6px 0 0; accent-color: var(--text); }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .presets button[aria-pressed="true"] { background: var(--text); color: var(--surface); }
+  .calc-out { background: var(--box); padding: 10px 14px; font-size: 15.5px; }
+  .calc-out b { font-variant-numeric: tabular-nums lining-nums; }
+
+  .refs p { font-size: 14px; padding-left: 1.2em; text-indent: -1.2em; margin: 0 0 6px; }
+  .foot { border-top: 1px solid var(--rule); margin-top: 32px; padding-top: 8px; font-size: 13px; }
+
+  @media (max-width: 560px) {
+    body { font-size: 16.5px; }
+    h1 { font-size: 28px; }
+    .dek { font-size: 17.5px; }
+    .note { padding-top: 28px; }
+    .eq .m { font-size: 15.5px; }
+  }
+</style>
+</head>
+<body>
+<article class="note">
+
+<header>
+  <h1>Breakeven employment growth in Brazil</h1>
+  <p class="dek">The pace of job creation that keeps unemployment stable has fallen by a third since 2013 and picked up again in 2026.</p>
+  <p class="byline">Rafael Pires&nbsp;&middot;&nbsp;October 2026</p>
+  <hr class="top-rule">
+</header>
+
+<section class="box" aria-label="Highlights">
+  <p class="box-title">Highlights</p>
+  <ul>
+    <li><b>The breakeven is lower.</b> Brazil needs about 60,000 new jobs a month to keep the unemployment rate stable. Its demographic component fell from 100,000 in 2013 to 65,000, because the population aged 14 and over now grows about half as fast as it did then.</li>
+    <li><b>Late 2025.</b> Job creation slowed from 155,000 to 97,000 a month, in averages over 12 months, and unemployment still fell by about 1 percentage point a year, because lower participation pushed the breakeven close to zero.</li>
+    <li><b>2026.</b> Participation stopped falling and the breakeven went back to 60,000. With job creation at 88,000 a month, the gap over the breakeven narrowed to 28,500, and the decline in unemployment over 12 months slowed to 0.3 percentage point.</li>
+    <li><b>Rule of thumb.</b> Every 10,000 jobs a month above the breakeven, sustained for a year, lowers the unemployment rate by about 0.1 percentage point.</li>
+    <li><b>What to watch.</b> If participation grows again at its 2019 pace, job creation of 90,000 a month will only keep unemployment stable.</li>
+  </ul>
+</section>
+
+<h2>Reading the monthly number</h2>
+<p>Every month, the PNAD Contínua survey shows how many more people are employed in Brazil. On its own, that number says little about how tight the labor market is, because its effect on unemployment also depends on how many people join the labor force over the same period. A gain of 80,000 jobs a month can lower unemployment in one year and raise it in another.</p>
+<p>A more useful reference is the breakeven, that is, the number of jobs the economy must add each month to keep the unemployment rate where it is. The Federal Reserve Bank of San Francisco publishes this measure for the United States (Petrosky-Nadeau and Stewart, 2024). In this note I compute it for Brazil with monthly PNAD data from March 2012 to August 2026, show how the gap between job creation and the breakeven translates into changes in unemployment, and split the breakeven into a demographic part and a part tied to labor force participation. The calculations are in Box&nbsp;1.</p>
+
+<section class="box" aria-label="Box 1">
+  <p class="box-title">Box 1: How the breakeven is computed</p>
+  <p>Let <span class="im"><i>E</i></span> be the number of employed people and <span class="im"><i>L</i></span> the labor force, so that the unemployment rate is <span class="im"><i>u</i> = 1 &minus; <i>E</i>/<i>L</i></span>. For <span class="im"><i>u</i></span> to stay unchanged from one month to the next, employment has to grow by <span class="im">1 &minus; <i>u</i></span> times the increase in the labor force. That is the breakeven:</p>
+  <div class="eq"><span class="m"><i>B</i><sub><i>t</i></sub> = (1 &minus; <i>u</i><sub><i>t</i>&minus;1</sub>)&thinsp;&Delta;<i>L</i><sub><i>t</i></sub></span><span class="n">(1)</span></div>
+  <p>I call the difference between job creation and the breakeven the gap, <span class="im"><i>G</i><sub><i>t</i></sub> = &Delta;<i>E</i><sub><i>t</i></sub> &minus; <i>B</i><sub><i>t</i></sub></span>. The gap determines the change in the unemployment rate exactly,</p>
+  <div class="eq"><span class="m">&Delta;<i>u</i><sub><i>t</i></sub> = &minus;<i>G</i><sub><i>t</i></sub>&thinsp;/&thinsp;<i>L</i><sub><i>t</i></sub></span><span class="n">(2)</span></div>
+  <p>and over twelve months an average gap <span class="im"><i class="ov">G</i></span> changes the rate by about</p>
+  <div class="eq"><span class="m"><i>u</i><sub><i>t</i></sub> &minus; <i>u</i><sub><i>t</i>&minus;12</sub> &asymp; &minus;1200&thinsp;<i class="ov">G</i><sub><i>t</i></sub>&thinsp;/&thinsp;<i>L</i><sub><i>t</i></sub></span><span class="n">(3)</span></div>
+  <p>percentage points. With a labor force of 109 million people, that is 0.011 percentage point for every thousand jobs a month. Since the labor force equals the population aged 14 and over, <span class="im"><i>N</i></span>, times the participation rate, <span class="im"><i>p</i></span>, the decomposition <span class="im">&Delta;<i>L</i><sub><i>t</i></sub> = <i>p</i><sub><i>t</i>&minus;1</sub>&Delta;<i>N</i><sub><i>t</i></sub> + <i>N</i><sub><i>t</i></sub>&Delta;<i>p</i><sub><i>t</i></sub></span> holds exactly, and the breakeven can be written as</p>
+  <div class="eq tall"><span class="m"><i>B</i><sub><i>t</i></sub> = <span class="term"><span>(1 &minus; <i>u</i><sub><i>t</i>&minus;1</sub>)&thinsp;<i>p</i><sub><i>t</i>&minus;1</sub>&Delta;<i>N</i><sub><i>t</i></sub></span><span class="brace"></span><span class="brace-l">demographics</span></span> + <span class="term"><span>(1 &minus; <i>u</i><sub><i>t</i>&minus;1</sub>)&thinsp;<i>N</i><sub><i>t</i></sub>&Delta;<i>p</i><sub><i>t</i></sub></span><span class="brace"></span><span class="brace-l">participation</span></span></span><span class="n">(4)</span></div>
+  <p>The first term is the number of jobs needed to absorb population growth with participation held constant. The second reflects people entering or leaving the labor force.</p>
+</section>
+
+<h2>A decade of cycles</h2>
+<p>In the 2015 and 2016 recession, employment fell by 129,000 a month on average while the labor force kept growing, and unemployment rose from 6.6% to 12.1%. In 2020 employment fell by 688,000 a month, but the labor force also shrank, by about 480,000 a month, as many people stopped looking for work. Unemployment rose 3.1 percentage points; with participation held constant, the same losses would have raised it by about 9 points.</p>
+
+<figure id="c1" data-alt="Chart 1: monthly job creation and the breakeven since 2013, averages over 12 months, with recessions shaded.">
+  <div class="fig-head">
+    <div class="fig-title">Chart 1: Job creation has exceeded the breakeven since July 2021</div>
+    <div class="fig-sub">Thousands of jobs a month, averages over 12 months. Shaded areas: recessions (CODACE).</div>
+  </div>
+  <div class="legend">
+    <span class="key"><span class="sw sw-bar" style="background:var(--bar)"></span>Job creation</span>
+    <span class="key"><span class="sw sw-line" style="background:var(--line)"></span>Breakeven</span>
+    <span class="key"><span class="sw sw-line" style="background:var(--orange)"></span>Demographic breakeven</span>
+  </div>
+  <div class="plot"></div>
+  <div class="src">Source: IBGE (PNAD Contínua); author&rsquo;s calculations.</div>
+  <details class="data"><summary>View data</summary></details>
+</figure>
+
+<p>In 2021 and 2022 those people returned to the labor force, which lifted the breakeven to 220,000 a month. Job creation was even stronger and unemployment fell more than six points. The gap measured over 12 months has been positive since July 2021 and took unemployment to 5.1% in December 2025, the lowest level in the series (Table&nbsp;1).</p>
+
+<figure>
+  <div class="fig-head">
+    <div class="fig-title">Table 1: Job creation, breakeven and unemployment by period</div>
+    <div class="fig-sub">Monthly averages, thousands. Change in unemployment since the end of the previous period.</div>
+  </div>
+  <div class="table-wrap">
+  <table class="ttable">
+    <thead>
+      <tr><th></th><th></th><th class="grp" colspan="3"><span>Breakeven</span></th><th></th><th class="grp" colspan="2"><span>Unemployment</span></th></tr>
+      <tr><th></th><th>Job creation</th><th>Total</th><th>Demographics</th><th>Participation</th><th>Gap</th><th>Change (pp)</th><th>End (%)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2013–14</td><td>89</td><td>75</td><td>97</td><td>−22</td><td>14</td><td>−0.3</td><td>6.6</td></tr>
+      <tr><td>2015–16</td><td>−129</td><td>104</td><td>82</td><td>22</td><td>−233</td><td>+5.6</td><td>12.1</td></tr>
+      <tr><td>2017–19</td><td>130</td><td>98</td><td>70</td><td>28</td><td>32</td><td>−1.1</td><td>11.1</td></tr>
+      <tr><td>2020</td><td>−688</td><td>−431</td><td>61</td><td>−493</td><td>−256</td><td>+3.1</td><td>14.2</td></tr>
+      <tr><td>2021–22</td><td>494</td><td>220</td><td>61</td><td>159</td><td>274</td><td>−6.2</td><td>7.9</td></tr>
+      <tr><td>2023–25</td><td>152</td><td>66</td><td>64</td><td>3</td><td>86</td><td>−2.9</td><td>5.1</td></tr>
+      <tr class="total"><td>Last 12 months</td><td>88</td><td>60</td><td>65</td><td>−5</td><td>29</td><td>−0.3</td><td>5.3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="src">Source: IBGE (PNAD Contínua); author&rsquo;s calculations. Last 12 months: September 2025 to August 2026. Components may not add up due to rounding.</div>
+</figure>
+
+<h2>The decline of the demographic component</h2>
+<p>In 2013, Brazil needed about 100,000 jobs a month just to keep up with growth in the population of working age, and today it needs about 65,000 (Chart&nbsp;2). The population aged 14 and over grew 1.40% in the 12 months to March 2013 and 0.76% in the 12 months to August 2026 (Chart&nbsp;3). The cohorts now reaching working age were born after fertility fell and are smaller, and IBGE projects that the total population will stop growing in 2041 (IBGE, 2024). Participation has no clear trend: outside the pandemic it has stayed between 61.4% and 63.6% since 2012, and it stood at 62.2% in August. It drives the swings in the breakeven from one year to the next, while the decline over the decade comes from demographics.</p>
+
+<figure id="c2" data-alt="Chart 2: the breakeven split into demographic and participation components, annual averages from 2013 to 2025 and the last 12 months.">
+  <div class="fig-head">
+    <div class="fig-title">Chart 2: The demographic component of the breakeven has fallen by a third since 2013</div>
+    <div class="fig-sub">Breakeven by component, thousands of jobs a month. Annual averages and the last 12 months.</div>
+  </div>
+  <div class="legend">
+    <span class="key"><span class="sw sw-bar" style="background:var(--orange)"></span>Demographics</span>
+    <span class="key"><span class="sw sw-bar" style="background:var(--aqua)"></span>Participation</span>
+    <span class="key"><span class="sw sw-dot" style="background:var(--line)"></span>Total breakeven</span>
+  </div>
+  <div class="plot"></div>
+  <div class="src">Source: IBGE (PNAD Contínua); author&rsquo;s calculations.</div>
+  <details class="data"><summary>View data</summary></details>
+</figure>
+
+<figure id="c3" data-alt="Chart 3: growth of the population aged 14 and over over 12 months, from 1.40% in March 2013 to 0.76% in August 2026.">
+  <div class="fig-head">
+    <div class="fig-title">Chart 3: Growth of the population aged 14 and over has nearly halved</div>
+    <div class="fig-sub">Change over 12 months, %. Shaded areas: recessions.</div>
+  </div>
+  <div class="plot"></div>
+  <div class="src">Source: IBGE (PNAD Contínua); author&rsquo;s calculations.</div>
+  <details class="data"><summary>View data</summary></details>
+</figure>
+
+<h2>The breakeven in 2025 and 2026</h2>
+<p>In the second half of 2025, job creation slowed from 155,000 a month in August to 97,000 in December (Chart&nbsp;4). Unemployment kept falling by about 1 percentage point a year because participation declined and took the breakeven from 63,000 to close to zero, so the gap stayed between 90,000 and 100,000 a month.</p>
+
+<figure id="c4" data-alt="Chart 4: job creation and the breakeven since January 2023, averages over 12 months. In August 2026 job creation was 88,000 a month, the demographic breakeven 65,000 and the breakeven 60,000.">
+  <div class="fig-head">
+    <div class="fig-title">Chart 4: The breakeven fell in late 2025 and rose in 2026</div>
+    <div class="fig-sub">Thousands of jobs a month, averages over 12 months. August 2026 values labeled.</div>
+  </div>
+  <div class="legend">
+    <span class="key"><span class="sw sw-bar" style="background:var(--bar)"></span>Job creation</span>
+    <span class="key"><span class="sw sw-line" style="background:var(--line)"></span>Breakeven</span>
+    <span class="key"><span class="sw sw-line" style="background:var(--orange)"></span>Demographic breakeven</span>
+  </div>
+  <div class="plot"></div>
+  <div class="src">Source: IBGE (PNAD Contínua); author&rsquo;s calculations.</div>
+  <details class="data"><summary>View data</summary></details>
+</figure>
+
+<p>In 2026 participation stopped falling, and its contribution to the breakeven went from &minus;66,000 to &minus;5,000 a month, which brought the breakeven back to 60,000. Job creation dipped to 62,000 in June and recovered to 88,000 in August. Between December and August the gap narrowed by about 70,000 a month, to 28,500, and 61,000 of that came from the higher breakeven. As a result, the decline in unemployment over 12 months slowed from 1.1 percentage points in December to 0.3 point in August.</p>
+
+<h2>A rule of thumb for the monthly number</h2>
+<p>Equation (3) turns a scenario for job creation into a path for unemployment, given an assumption for the breakeven. Since the labor force changes slowly, the conversion has barely moved since 2013 (Chart&nbsp;5): 10,000 jobs a month above the breakeven, sustained for a year, lower unemployment by about 0.1 percentage point. Table&nbsp;2 applies the rule to job creation of 90,000 a month, close to the latest reading. If participation stays flat, unemployment falls another 0.3 point over 12 months; if participation grows as it did in 2019, unemployment stops falling; at the 2024 pace, it rises 0.3 point.</p>
+
+<figure id="c5" data-alt="Chart 5: scatter of the gap between job creation and the breakeven against the change in unemployment over 12 months, March 2013 to August 2026, with the line from equation (3).">
+  <div class="fig-head">
+    <div class="fig-title">Chart 5: A gap of 10,000 jobs a month lowers unemployment by about 0.1 percentage point in a year</div>
+    <div class="fig-sub">Each dot is a month, March 2013 to August 2026. The line uses the August 2026 labor force.</div>
+  </div>
+  <div class="legend">
+    <span class="key"><span class="sw sw-dot" style="background:var(--dot);opacity:.6"></span>Month</span>
+    <span class="key"><span class="sw sw-line" style="background:var(--slope)"></span>Equation (3)</span>
+  </div>
+  <div class="plot"></div>
+  <div class="src">Source: IBGE (PNAD Contínua); author&rsquo;s calculations.</div>
+  <details class="data"><summary>View data</summary></details>
+</figure>
+
+<figure>
+  <div class="fig-head">
+    <div class="fig-title">Table 2: What job creation of 90,000 a month means for unemployment</div>
+    <div class="fig-sub">Job creation fixed at 90,000 a month; breakeven under three assumptions for participation.</div>
+  </div>
+  <div class="table-wrap">
+  <table class="ttable narrow">
+    <thead>
+      <tr><th>Participation</th><th>Breakeven<br>(thousands a month)</th><th>Gap<br>(thousands a month)</th><th>Change in unemployment<br>over 12 months (pp)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Flat</td><td>65</td><td>25</td><td>&minus;0.3</td></tr>
+      <tr><td>Growing as in 2019</td><td>90</td><td>0</td><td>0.0</td></tr>
+      <tr><td>Growing as in 2024</td><td>120</td><td>&minus;30</td><td>+0.3</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="src">Source: author&rsquo;s calculations with equation (3) and a labor force of 109 million.</div>
+</figure>
+
+<section class="calc" aria-label="Rule of thumb calculator">
+  <div class="fig-title">Try the rule</div>
+  <div class="fig-sub">Pick a pace of job creation and a breakeven. The result applies equation (3) with the August 2026 labor force.</div>
+  <div class="calc-grid">
+    <div class="field">
+      <label for="in-jobs"><span>Job creation, thousands a month</span><output id="out-jobs" for="in-jobs">90</output></label>
+      <input id="in-jobs" type="range" min="-100" max="300" step="5" value="90">
+    </div>
+    <div class="field">
+      <label for="in-be"><span>Breakeven, thousands a month</span><output id="out-be" for="in-be">65</output></label>
+      <input id="in-be" type="range" min="-100" max="300" step="5" value="65">
+      <div class="presets" role="group" aria-label="Breakeven presets">
+        <button type="button" data-be="65" aria-pressed="true">Flat participation</button>
+        <button type="button" data-be="90" aria-pressed="false">Participation as in 2019</button>
+        <button type="button" data-be="120" aria-pressed="false">Participation as in 2024</button>
+      </div>
+    </div>
+  </div>
+  <div class="calc-out" id="calc-out" aria-live="polite"></div>
+</section>
+
+<h2>Implications</h2>
+<p>With the demographic component near 65,000, a pace of job creation that only kept unemployment stable in 2013 is now enough to lower it. Comparing current numbers with the averages of the last decade therefore tends to understate how tight the labor market is.</p>
+<p>Part of the decline in unemployment in recent years came from slower growth of the labor force. For wages, the source of that decline matters little, since wages respond to how scarce available workers are. It does matter for how long unemployment can stay low, because a low rate can now be sustained with less job creation than in the past.</p>
+<p>The gap also helps anticipate unemployment, since the rate only goes back up when the gap turns negative. In August it was 28,500 a month, less than a third of its December level. If participation keeps recovering, the breakeven should rise further and unemployment may stop falling even with stable job creation.</p>
+
+<h2>Data and caveats</h2>
+<p>I use the monthly PNAD Contínua series for the population aged 14 and over, the labor force and employment, from March 2012 to August 2026. The monthly figures come from the survey&rsquo;s rolling quarters, so flows are shown as averages over 12 months, which remove seasonality, and comparisons use full years or windows of 12 months. The unemployment rate is recomputed as <span class="im">1 &minus; <i>E</i>/<i>L</i></span> so that the identities in Box&nbsp;1 hold exactly. PNAD employment includes informal work, so these numbers are not comparable with the Novo CAGED count of formal jobs. The breakeven computed here looks backward and only picks up changes in participation after they happen. A version that looks ahead would combine IBGE population projections with assumptions for participation by age group.</p>
+
+<h2>References</h2>
+<div class="refs">
+  <p>CODACE, Comitê de Datação de Ciclos Econômicos. <i>Comunicados de datação de ciclos econômicos</i>. Rio de Janeiro: FGV IBRE.</p>
+  <p>IBGE (2024). <i>Projeções da população do Brasil e das Unidades da Federação: revisão 2024</i>. Rio de Janeiro: IBGE.</p>
+  <p>IBGE. <i>Pesquisa Nacional por Amostra de Domicílios Contínua</i>, monthly series. Rio de Janeiro: IBGE.</p>
+  <p>Petrosky-Nadeau, N., and S. A. Stewart (2024). <a href="https://www.frbsf.org/research-and-insights/publications/economic-letter/2024/07/breakeven-employment-growth/" target="_blank" rel="noopener">Breakeven employment growth</a>. <i>FRBSF Economic Letter</i> 2024-18, Federal Reserve Bank of San Francisco, July 8, 2024.</p>
+</div>
+
+<p class="foot">The views expressed are the author&rsquo;s own. Data: IBGE, PNAD Contínua. Author&rsquo;s calculations.</p>
+
+</article>
+
+<script>
+(function () {
+  "use strict";
+  var DATA = {"g1":[["2013-03",2013.2083,132.08,136.7,103.75],["2013-04",2013.2917,95.58,104.1,103.3],["2013-05",2013.375,89.08,86.87,103.1],["2013-06",2013.4583,91.75,86.1,102.84],["2013-07",2013.5417,101.5,90.5,102.59],["2013-08",2013.625,87.5,73.77,102.25],["2013-09",2013.7083,85.33,76.01,101.7],["2013-10",2013.7917,86.67,72.36,101.19],["2013-11",2013.875,111.92,89.84,100.69],["2013-12",2013.9583,122.83,68.37,100.16],["2014-01",2014.0417,123.0,58.31,99.7],["2014-02",2014.125,140.42,62.36,99.19],["2014-03",2014.2083,137.42,71.03,98.76],["2014-04",2014.2917,124.42,66.81,98.32],["2014-05",2014.375,102.5,52.55,97.82],["2014-06",2014.4583,96.17,47.75,97.39],["2014-07",2014.5417,70.0,37.65,96.85],["2014-08",2014.625,59.42,41.19,96.25],["2014-09",2014.7083,70.42,56.63,95.43],["2014-10",2014.7917,79.92,72.38,94.63],["2014-11",2014.875,62.17,64.07,93.89],["2014-12",2014.9583,54.75,81.05,93.08],["2015-01",2015.0417,61.25,95.48,92.31],["2015-02",2015.125,39.08,96.58,91.55],["2015-03",2015.2083,30.42,96.79,90.73],["2015-04",2015.2917,27.67,102.62,90.0],["2015-05",2015.375,9.0,108.12,89.17],["2015-06",2015.4583,-1.67,122.39,88.32],["2015-07",2015.5417,1.67,141.35,87.51],["2015-08",2015.625,-3.5,151.42,86.85],["2015-09",2015.7083,-30.08,149.07,86.43],["2015-10",2015.7917,-38.5,160.15,85.98],["2015-11",2015.875,-62.17,149.19,85.53],["2015-12",2015.9583,-62.92,143.9,85.06],["2016-01",2016.0417,-91.25,135.0,84.58],["2016-02",2016.125,-96.58,139.25,84.08],["2016-03",2016.2083,-116.92,135.77,83.58],["2016-04",2016.2917,-147.5,121.83,83.32],["2016-05",2016.375,-132.25,125.27,82.77],["2016-06",2016.4583,-143.83,109.15,82.25],["2016-07",2016.5417,-170.92,84.52,81.71],["2016-08",2016.625,-186.92,69.28,81.21],["2016-09",2016.7083,-210.58,33.06,80.68],["2016-10",2016.7917,-220.92,17.57,80.14],["2016-11",2016.875,-190.75,48.44,79.6],["2016-12",2016.9583,-195.5,63.48,79.12],["2017-01",2017.0417,-184.67,73.51,78.61],["2017-02",2017.125,-185.5,62.9,78.09],["2017-03",2017.2083,-169.08,69.37,77.58],["2017-04",2017.2917,-130.5,71.82,76.92],["2017-05",2017.375,-105.33,72.97,76.51],["2017-06",2017.4583,-55.33,85.31,76.08],["2017-07",2017.5417,5.25,107.03,75.69],["2017-08",2017.625,59.83,126.2,75.22],["2017-09",2017.7083,103.08,154.12,74.7],["2017-10",2017.7917,124.92,155.98,74.22],["2017-11",2017.875,137.5,149.36,73.71],["2017-12",2017.9583,152.25,129.2,73.21],["2018-01",2018.0417,157.17,121.88,72.76],["2018-02",2018.125,154.25,105.1,72.28],["2018-03",2018.2083,150.92,97.86,71.85],["2018-04",2018.2917,139.42,78.05,71.41],["2018-05",2018.375,111.33,60.46,70.92],["2018-06",2018.4583,87.42,41.62,70.5],["2018-07",2018.5417,91.42,51.26,69.96],["2018-08",2018.625,95.42,59.79,69.61],["2018-09",2018.7083,119.25,75.4,69.4],["2018-10",2018.7917,124.08,85.34,69.21],["2018-11",2018.875,113.75,76.92,69.07],["2018-12",2018.9583,90.5,74.76,68.87],["2019-01",2019.0417,81.17,72.55,68.65],["2019-02",2019.125,92.0,79.79,68.43],["2019-03",2019.2083,126.0,93.5,68.22],["2019-04",2019.2917,160.75,129.13,68.08],["2019-05",2019.375,195.17,158.67,67.92],["2019-06",2019.4583,204.17,167.72,67.78],["2019-07",2019.5417,186.92,144.77,67.65],["2019-08",2019.625,158.25,131.24,67.65],["2019-09",2019.7083,132.0,121.78,67.67],["2019-10",2019.7917,125.5,115.93,67.67],["2019-11",2019.875,131.75,94.17,67.67],["2019-12",2019.9583,147.33,90.96,67.67],["2020-01",2020.0417,155.5,83.76,67.73],["2020-02",2020.125,153.25,82.86,67.75],["2020-03",2020.2083,26.67,-15.04,67.76],["2020-04",2020.2917,-265.67,-256.37,67.92],["2020-05",2020.375,-588.92,-530.19,67.63],["2020-06",2020.4583,-837.67,-718.98,67.12],["2020-07",2020.5417,-965.83,-790.51,66.46],["2020-08",2020.625,-986.92,-758.34,65.52],["2020-09",2020.7083,-936.42,-694.28,64.37],["2020-10",2020.7917,-809.33,-579.16,63.25],["2020-11",2020.875,-733.58,-480.74,62.25],["2020-12",2020.9583,-687.58,-431.41,61.28],["2021-01",2021.0417,-656.33,-400.34,60.36],["2021-02",2021.125,-613.92,-380.87,59.5],["2021-03",2021.2083,-502.17,-297.39,58.62],["2021-04",2021.2917,-225.42,-60.6,57.68],["2021-05",2021.375,109.17,238.9,57.13],["2021-06",2021.4583,427.75,477.54,56.78],["2021-07",2021.5417,642.25,607.58,56.66],["2021-08",2021.625,742.0,604.66,56.84],["2021-09",2021.7083,775.92,585.93,57.27],["2021-10",2021.7917,705.25,490.36,57.68],["2021-11",2021.875,679.92,437.93,58.1],["2021-12",2021.9583,693.25,429.53,58.48],["2022-01",2022.0417,669.25,386.85,58.85],["2022-02",2022.125,648.42,353.02,59.17],["2022-03",2022.2083,668.83,342.11,59.53],["2022-04",2022.2917,737.42,365.25,59.89],["2022-05",2022.375,764.42,336.49,60.26],["2022-06",2022.4583,725.17,292.75,60.71],["2022-07",2022.5417,653.42,247.66,61.11],["2022-08",2022.625,595.5,222.0,61.49],["2022-09",2022.7083,514.17,164.69,61.95],["2022-10",2022.7917,465.92,130.62,62.4],["2022-11",2022.875,388.25,77.67,62.75],["2022-12",2022.9583,294.08,9.85,63.07],["2023-01",2023.0417,259.08,6.19,63.36],["2023-02",2023.125,232.0,0.47,63.59],["2023-03",2023.2083,204.58,-4.4,63.84],["2023-04",2023.2917,120.58,-60.28,64.02],["2023-05",2023.375,68.83,-64.99,64.15],["2023-06",2023.4583,49.42,-64.21,64.25],["2023-07",2023.5417,52.5,-55.57,64.33],["2023-08",2023.625,48.42,-52.35,64.32],["2023-09",2023.7083,41.92,-47.41,64.12],["2023-10",2023.7917,40.08,-20.21,63.87],["2023-11",2023.875,63.0,17.14,63.66],["2023-12",2023.9583,128.75,81.73,63.47],["2024-01",2024.0417,157.42,92.09,63.27],["2024-02",2024.125,171.67,106.54,63.14],["2024-03",2024.2083,192.67,116.54,62.98],["2024-04",2024.2917,225.08,140.46,63.01],["2024-05",2024.375,238.17,131.69,62.93],["2024-06",2024.4583,237.08,135.91,62.85],["2024-07",2024.5417,218.17,119.52,62.72],["2024-08",2024.625,233.25,130.18,62.73],["2024-09",2024.7083,260.0,141.01,62.84],["2024-10",2024.7917,277.17,149.62,63.01],["2024-11",2024.875,276.42,148.5,63.15],["2024-12",2024.9583,230.83,118.79,63.34],["2025-01",2025.0417,192.58,96.16,63.44],["2025-02",2025.125,195.75,100.9,63.57],["2025-03",2025.2083,185.08,103.34,63.66],["2025-04",2025.2917,198.58,113.86,63.63],["2025-05",2025.375,205.83,119.31,63.72],["2025-06",2025.4583,202.75,100.75,63.81],["2025-07",2025.5417,196.33,92.74,63.94],["2025-08",2025.625,154.92,63.25,64.08],["2025-09",2025.7083,114.58,43.85,64.13],["2025-10",2025.7917,77.25,10.44,64.22],["2025-11",2025.875,91.92,8.69,64.22],["2025-12",2025.9583,97.17,-1.53,64.24],["2026-01",2026.0417,140.25,36.57,64.31],["2026-02",2026.125,121.83,29.05,64.36],["2026-03",2026.2083,122.08,37.03,64.45],["2026-04",2026.2917,89.42,20.53,64.48],["2026-05",2026.375,70.0,16.78,64.54],["2026-06",2026.4583,61.75,27.41,64.6],["2026-07",2026.5417,74.83,47.12,64.59],["2026-08",2026.625,88.25,59.73,64.55]],"g2":[["2013",0.0,100.16,-31.79,68.37],["2014",1.0,93.08,-12.03,81.05],["2015",2.0,85.06,58.84,143.9],["2016",3.0,79.12,-15.64,63.48],["2017",4.0,73.21,55.99,129.2],["2018",5.0,68.87,5.89,74.76],["2019",6.0,67.67,23.29,90.96],["2020",7.0,61.28,-492.69,-431.41],["2021",8.0,58.48,371.05,429.53],["2022",9.0,63.07,-53.22,9.85],["2023",10.0,63.47,18.26,81.73],["2024",11.0,63.34,55.46,118.79],["2025",12.0,64.24,-65.77,-1.53],["L12M",13.6,64.55,-4.82,59.73]],"g3":[["2013-03",2013.2083,1.4],["2013-04",2013.2917,1.392],["2013-05",2013.375,1.388],["2013-06",2013.4583,1.383],["2013-07",2013.5417,1.378],["2013-08",2013.625,1.372],["2013-09",2013.7083,1.363],["2013-10",2013.7917,1.355],["2013-11",2013.875,1.347],["2013-12",2013.9583,1.339],["2014-01",2014.0417,1.331],["2014-02",2014.125,1.322],["2014-03",2014.2083,1.314],["2014-04",2014.2917,1.306],["2014-05",2014.375,1.298],["2014-06",2014.4583,1.29],["2014-07",2014.5417,1.282],["2014-08",2014.625,1.273],["2014-09",2014.7083,1.261],["2014-10",2014.7917,1.25],["2014-11",2014.875,1.239],["2014-12",2014.9583,1.227],["2015-01",2015.0417,1.216],["2015-02",2015.125,1.205],["2015-03",2015.2083,1.194],["2015-04",2015.2917,1.184],["2015-05",2015.375,1.172],["2015-06",2015.4583,1.161],["2015-07",2015.5417,1.15],["2015-08",2015.625,1.142],["2015-09",2015.7083,1.136],["2015-10",2015.7917,1.131],["2015-11",2015.875,1.125],["2015-12",2015.9583,1.12],["2016-01",2016.0417,1.114],["2016-02",2016.125,1.109],["2016-03",2016.2083,1.103],["2016-04",2016.2917,1.101],["2016-05",2016.375,1.095],["2016-06",2016.4583,1.09],["2016-07",2016.5417,1.085],["2016-08",2016.625,1.08],["2016-09",2016.7083,1.075],["2016-10",2016.7917,1.07],["2016-11",2016.875,1.066],["2016-12",2016.9583,1.062],["2017-01",2017.0417,1.057],["2017-02",2017.125,1.052],["2017-03",2017.2083,1.048],["2017-04",2017.2917,1.04],["2017-05",2017.375,1.036],["2017-06",2017.4583,1.032],["2017-07",2017.5417,1.027],["2017-08",2017.625,1.021],["2017-09",2017.7083,1.013],["2017-10",2017.7917,1.005],["2017-11",2017.875,0.997],["2017-12",2017.9583,0.989],["2018-01",2018.0417,0.981],["2018-02",2018.125,0.973],["2018-03",2018.2083,0.965],["2018-04",2018.2917,0.958],["2018-05",2018.375,0.95],["2018-06",2018.4583,0.943],["2018-07",2018.5417,0.935],["2018-08",2018.625,0.929],["2018-09",2018.7083,0.925],["2018-10",2018.7917,0.921],["2018-11",2018.875,0.918],["2018-12",2018.9583,0.914],["2019-01",2019.0417,0.911],["2019-02",2019.125,0.907],["2019-03",2019.2083,0.903],["2019-04",2019.2917,0.9],["2019-05",2019.375,0.896],["2019-06",2019.4583,0.893],["2019-07",2019.5417,0.889],["2019-08",2019.625,0.887],["2019-09",2019.7083,0.886],["2019-10",2019.7917,0.884],["2019-11",2019.875,0.883],["2019-12",2019.9583,0.882],["2020-01",2020.0417,0.881],["2020-02",2020.125,0.88],["2020-03",2020.2083,0.879],["2020-04",2020.2917,0.881],["2020-05",2020.375,0.879],["2020-06",2020.4583,0.878],["2020-07",2020.5417,0.877],["2020-08",2020.625,0.874],["2020-09",2020.7083,0.868],["2020-10",2020.7917,0.862],["2020-11",2020.875,0.856],["2020-12",2020.9583,0.85],["2021-01",2021.0417,0.844],["2021-02",2021.125,0.838],["2021-03",2021.2083,0.832],["2021-04",2021.2917,0.824],["2021-05",2021.375,0.818],["2021-06",2021.4583,0.812],["2021-07",2021.5417,0.807],["2021-08",2021.625,0.803],["2021-09",2021.7083,0.802],["2021-10",2021.7917,0.8],["2021-11",2021.875,0.8],["2021-12",2021.9583,0.798],["2022-01",2022.0417,0.797],["2022-02",2022.125,0.796],["2022-03",2022.2083,0.794],["2022-04",2022.2917,0.794],["2022-05",2022.375,0.792],["2022-06",2022.4583,0.792],["2022-07",2022.5417,0.791],["2022-08",2022.625,0.79],["2022-09",2022.7083,0.791],["2022-10",2022.7917,0.792],["2022-11",2022.875,0.793],["2022-12",2022.9583,0.793],["2023-01",2023.0417,0.795],["2023-02",2023.125,0.795],["2023-03",2023.2083,0.796],["2023-04",2023.2917,0.797],["2023-05",2023.375,0.798],["2023-06",2023.4583,0.798],["2023-07",2023.5417,0.799],["2023-08",2023.625,0.799],["2023-09",2023.7083,0.796],["2023-10",2023.7917,0.792],["2023-11",2023.875,0.789],["2023-12",2023.9583,0.786],["2024-01",2024.0417,0.783],["2024-02",2024.125,0.78],["2024-03",2024.2083,0.777],["2024-04",2024.2917,0.776],["2024-05",2024.375,0.773],["2024-06",2024.4583,0.77],["2024-07",2024.5417,0.767],["2024-08",2024.625,0.765],["2024-09",2024.7083,0.764],["2024-10",2024.7917,0.764],["2024-11",2024.875,0.764],["2024-12",2024.9583,0.764],["2025-01",2025.0417,0.764],["2025-02",2025.125,0.764],["2025-03",2025.2083,0.763],["2025-04",2025.2917,0.762],["2025-05",2025.375,0.761],["2025-06",2025.4583,0.761],["2025-07",2025.5417,0.761],["2025-08",2025.625,0.761],["2025-09",2025.7083,0.76],["2025-10",2025.7917,0.76],["2025-11",2025.875,0.76],["2025-12",2025.9583,0.759],["2026-01",2026.0417,0.759],["2026-02",2026.125,0.759],["2026-03",2026.2083,0.759],["2026-04",2026.2917,0.759],["2026-05",2026.375,0.759],["2026-06",2026.4583,0.759],["2026-07",2026.5417,0.758],["2026-08",2026.625,0.757]],"g4":[["2023-01",2023.0417,259.08,6.19,63.36],["2023-02",2023.125,232.0,0.47,63.59],["2023-03",2023.2083,204.58,-4.4,63.84],["2023-04",2023.2917,120.58,-60.28,64.02],["2023-05",2023.375,68.83,-64.99,64.15],["2023-06",2023.4583,49.42,-64.21,64.25],["2023-07",2023.5417,52.5,-55.57,64.33],["2023-08",2023.625,48.42,-52.35,64.32],["2023-09",2023.7083,41.92,-47.41,64.12],["2023-10",2023.7917,40.08,-20.21,63.87],["2023-11",2023.875,63.0,17.14,63.66],["2023-12",2023.9583,128.75,81.73,63.47],["2024-01",2024.0417,157.42,92.09,63.27],["2024-02",2024.125,171.67,106.54,63.14],["2024-03",2024.2083,192.67,116.54,62.98],["2024-04",2024.2917,225.08,140.46,63.01],["2024-05",2024.375,238.17,131.69,62.93],["2024-06",2024.4583,237.08,135.91,62.85],["2024-07",2024.5417,218.17,119.52,62.72],["2024-08",2024.625,233.25,130.18,62.73],["2024-09",2024.7083,260.0,141.01,62.84],["2024-10",2024.7917,277.17,149.62,63.01],["2024-11",2024.875,276.42,148.5,63.15],["2024-12",2024.9583,230.83,118.79,63.34],["2025-01",2025.0417,192.58,96.16,63.44],["2025-02",2025.125,195.75,100.9,63.57],["2025-03",2025.2083,185.08,103.34,63.66],["2025-04",2025.2917,198.58,113.86,63.63],["2025-05",2025.375,205.83,119.31,63.72],["2025-06",2025.4583,202.75,100.75,63.81],["2025-07",2025.5417,196.33,92.74,63.94],["2025-08",2025.625,154.92,63.25,64.08],["2025-09",2025.7083,114.58,43.85,64.13],["2025-10",2025.7917,77.25,10.44,64.22],["2025-11",2025.875,91.92,8.69,64.22],["2025-12",2025.9583,97.17,-1.53,64.24],["2026-01",2026.0417,140.25,36.57,64.31],["2026-02",2026.125,121.83,29.05,64.36],["2026-03",2026.2083,122.08,37.03,64.45],["2026-04",2026.2917,89.42,20.53,64.48],["2026-05",2026.375,70.0,16.78,64.54],["2026-06",2026.4583,61.75,27.41,64.6],["2026-07",2026.5417,74.83,47.12,64.59],["2026-08",2026.625,88.25,59.73,64.55]],"g5":[["2013-03",-4.61,0.053],["2013-04",-8.51,0.103],["2013-05",2.21,-0.027],["2013-06",5.65,-0.068],["2013-07",11.0,-0.133],["2013-08",13.73,-0.165],["2013-09",9.32,-0.109],["2013-10",14.3,-0.168],["2013-11",22.08,-0.262],["2013-12",54.46,-0.66],["2014-01",64.69,-0.788],["2014-02",78.05,-0.957],["2014-03",66.39,-0.816],["2014-04",57.6,-0.708],["2014-05",49.95,-0.613],["2014-06",48.41,-0.593],["2014-07",32.35,-0.396],["2014-08",18.22,-0.223],["2014-09",13.79,-0.168],["2014-10",7.54,-0.089],["2014-11",-1.9,0.027],["2014-12",-26.3,0.327],["2015-01",-34.23,0.42],["2015-02",-57.5,0.698],["2015-03",-66.37,0.8],["2015-04",-74.95,0.903],["2015-05",-99.12,1.197],["2015-06",-124.06,1.498],["2015-07",-139.68,1.684],["2015-08",-154.92,1.866],["2015-09",-179.16,2.158],["2015-10",-198.65,2.393],["2015-11",-211.36,2.547],["2015-12",-206.81,2.493],["2016-01",-226.25,2.719],["2016-02",-235.83,2.822],["2016-03",-252.69,3.013],["2016-04",-269.33,3.209],["2016-05",-257.52,3.067],["2016-06",-252.99,3.011],["2016-07",-255.43,3.037],["2016-08",-256.2,3.044],["2016-09",-243.64,2.894],["2016-10",-238.49,2.833],["2016-11",-239.19,2.841],["2016-12",-258.98,3.076],["2017-01",-258.18,3.061],["2017-02",-248.4,2.939],["2017-03",-238.45,2.816],["2017-04",-202.32,2.389],["2017-05",-178.3,2.107],["2017-06",-140.64,1.665],["2017-07",-101.78,1.208],["2017-08",-66.37,0.792],["2017-09",-51.03,0.613],["2017-10",-31.06,0.38],["2017-11",-11.86,0.156],["2017-12",23.05,-0.252],["2018-01",35.29,-0.403],["2018-02",49.15,-0.572],["2018-03",53.06,-0.625],["2018-04",61.36,-0.72],["2018-05",50.87,-0.596],["2018-06",45.79,-0.535],["2018-07",40.16,-0.468],["2018-08",35.62,-0.414],["2018-09",43.85,-0.507],["2018-10",38.74,-0.446],["2018-11",36.83,-0.423],["2018-12",15.74,-0.178],["2019-01",8.62,-0.099],["2019-02",12.21,-0.145],["2019-03",32.5,-0.384],["2019-04",31.62,-0.37],["2019-05",36.5,-0.422],["2019-06",36.44,-0.416],["2019-07",42.14,-0.478],["2019-08",27.01,-0.303],["2019-09",10.22,-0.109],["2019-10",9.57,-0.099],["2019-11",37.58,-0.415],["2019-12",56.37,-0.629],["2020-01",71.74,-0.809],["2020-02",70.39,-0.798],["2020-03",41.7,-0.467],["2020-04",-9.3,0.127],["2020-05",-58.72,0.716],["2020-06",-118.69,1.443],["2020-07",-175.32,2.139],["2020-08",-228.57,2.81],["2020-09",-242.14,2.974],["2020-10",-230.18,2.816],["2020-11",-252.85,3.06],["2020-12",-256.18,3.088],["2021-01",-255.99,3.1],["2021-02",-233.04,2.846],["2021-03",-204.78,2.533],["2021-04",-164.82,2.06],["2021-05",-129.73,1.633],["2021-06",-49.79,0.664],["2021-07",34.67,-0.36],["2021-08",137.34,-1.604],["2021-09",189.99,-2.217],["2021-10",214.89,-2.482],["2021-11",241.99,-2.778],["2021-12",263.72,-3.014],["2022-01",282.4,-3.241],["2022-02",295.39,-3.396],["2022-03",326.72,-3.768],["2022-04",372.16,-4.277],["2022-05",427.93,-4.905],["2022-06",432.42,-4.937],["2022-07",405.76,-4.62],["2022-08",373.5,-4.241],["2022-09",349.48,-3.961],["2022-10",335.29,-3.792],["2022-11",310.58,-3.508],["2022-12",284.24,-3.209],["2023-01",252.89,-2.853],["2023-02",231.53,-2.61],["2023-03",208.99,-2.353],["2023-04",180.86,-2.036],["2023-05",133.83,-1.505],["2023-06",113.63,-1.28],["2023-07",108.07,-1.218],["2023-08",100.77,-1.137],["2023-09",89.33,-1.009],["2023-10",60.3,-0.682],["2023-11",45.86,-0.519],["2023-12",47.02,-0.531],["2024-01",65.33,-0.742],["2024-02",65.13,-0.742],["2024-03",76.13,-0.869],["2024-04",84.63,-0.959],["2024-05",106.48,-1.201],["2024-06",101.17,-1.137],["2024-07",98.65,-1.107],["2024-08",103.07,-1.154],["2024-09",118.99,-1.33],["2024-10",127.55,-1.423],["2024-11",127.92,-1.426],["2024-12",112.04,-1.249],["2025-01",96.42,-1.078],["2025-02",94.85,-1.063],["2025-03",81.74,-0.918],["2025-04",84.72,-0.946],["2025-05",86.52,-0.96],["2025-06",102.0,-1.129],["2025-07",103.59,-1.145],["2025-08",91.67,-1.012],["2025-09",70.73,-0.779],["2025-10",66.81,-0.735],["2025-11",83.23,-0.917],["2025-12",98.7,-1.088],["2026-01",103.68,-1.144],["2026-02",92.79,-1.025],["2026-03",85.05,-0.94],["2026-04",68.89,-0.761],["2026-05",53.22,-0.587],["2026-06",34.34,-0.377],["2026-07",27.71,-0.304],["2026-08",28.52,-0.313]],"L":109262.0,"u0":5.2946};
+
+  var NS = "http://www.w3.org/2000/svg";
+  var MINUS = "−";
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  function S(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    if (attrs) for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function T(parent, x, y, str, attrs) {
+    var t = S("text", Object.assign({ x: x, y: y }, attrs || {}), parent);
+    t.textContent = str;
+    return t;
+  }
+  function fmt(v, d, sign) {
+    d = d || 0;
+    var r = Number(v.toFixed(d));
+    if (Object.is(r, -0)) r = 0;
+    var a = Math.abs(r).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+    if (r < 0) return MINUS + a;
+    if (sign && r > 0) return "+" + a;
+    return a;
+  }
+  function mlabel(m) { var p = m.split("-"); return MONTHS[+p[1] - 1] + " " + p[0]; }
+  function lin(d0, d1, r0, r1) {
+    var k = (r1 - r0) / (d1 - d0);
+    var f = function (x) { return r0 + (x - d0) * k; };
+    f.inv = function (y) { return d0 + (y - r0) / k; };
+    return f;
+  }
+  function crisp(v) { return Math.round(v) + 0.5; }
+  function pathD(pts) {
+    var s = "";
+    for (var i = 0; i < pts.length; i++) s += (i ? "L" : "M") + pts[i][0].toFixed(1) + "," + pts[i][1].toFixed(1);
+    return s;
+  }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function isYear(s) { return /^\d{4}$/.test(s); }
+  function periodName(s) { return isYear(s) ? s : "Last 12 months"; }
+
+  /* ---------- shared drawing pieces ---------- */
+  function frame(svg, W, H) {
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.setAttribute("width", W);
+    svg.setAttribute("height", H);
+  }
+  function shade(svg, X, top, bottom, spans) {
+    var g = S("g", null, svg);
+    spans.forEach(function (s) {
+      S("rect", { class: "shade", x: X(s[0]), y: top, width: X(s[1]) - X(s[0]), height: bottom - top }, g);
+    });
+  }
+  function ygrid(svg, Y, ticks, x0, x1, f, skipZero) {
+    var g = S("g", null, svg);
+    ticks.forEach(function (v) {
+      var y = crisp(Y(v));
+      if (!(skipZero && v === 0)) S("line", { class: "grid", x1: x0, x2: x1, y1: y, y2: y }, g);
+      T(g, x0 - 7, Y(v), f(v), { "text-anchor": "end", dy: "0.35em", class: "tick" });
+    });
+  }
+  function xgrid(svg, X, ticks, y0, y1) {
+    var g = S("g", null, svg);
+    ticks.forEach(function (v) { var x = crisp(X(v)); S("line", { class: "grid", x1: x, x2: x, y1: y0, y2: y1 }, g); });
+  }
+  function xaxis(svg, X, y, x0, x1, major, labelOf, minor) {
+    var g = S("g", null, svg);
+    var yy = crisp(y);
+    S("line", { class: "axis", x1: x0, x2: x1, y1: yy, y2: yy }, g);
+    (minor || []).forEach(function (v) { var x = crisp(X(v)); S("line", { class: "axis", x1: x, x2: x, y1: yy, y2: yy + 3 }, g); });
+    major.forEach(function (v) {
+      var x = crisp(X(v));
+      S("line", { class: "axis", x1: x, x2: x, y1: yy, y2: yy + 5 }, g);
+      var l = labelOf(v);
+      if (l !== null) T(g, X(v), yy + 18, l, { "text-anchor": "middle", class: "tick" });
+    });
+  }
+  function hline(svg, y, x0, x1, cls) { var yy = crisp(y); return S("line", { class: cls || "axis", x1: x0, x2: x1, y1: yy, y2: yy }, svg); }
+  function vline(svg, x, y0, y1, cls) { var xx = crisp(x); return S("line", { class: cls || "axis", x1: xx, x2: xx, y1: y0, y2: y1 }, svg); }
+
+  /* ---------- tooltip ---------- */
+  function showTip(plot, tip, x, y, title, rows) {
+    tip.replaceChildren();
+    var h = document.createElement("div"); h.className = "tip-h"; h.textContent = title; tip.appendChild(h);
+    rows.forEach(function (r) {
+      var row = document.createElement("div"); row.className = "tip-r";
+      var k = document.createElement("span"); k.className = "tip-k"; k.style.background = r.c;
+      if (r.dot) { k.style.width = "7px"; k.style.height = "7px"; k.style.borderRadius = "50%"; }
+      var v = document.createElement("b"); v.textContent = r.v;
+      var l = document.createElement("span"); l.textContent = r.l;
+      row.appendChild(k); row.appendChild(v); row.appendChild(l);
+      tip.appendChild(row);
+    });
+    tip.classList.add("on");
+    var pw = plot.clientWidth, ph = plot.clientHeight, tw = tip.offsetWidth, th = tip.offsetHeight;
+    var left = x + 14;
+    if (left + tw > pw - 2) left = x - 14 - tw;
+    if (left < 2) left = clamp(x - tw / 2, 2, Math.max(2, pw - tw - 2));
+    var top = y - th - 12;
+    if (top < 0) top = y + 14;
+    if (top + th > ph) top = Math.max(0, ph - th);
+    tip.style.transform = "translate(" + Math.round(left) + "px," + Math.round(top) + "px)";
+  }
+  function hideTip(tip) { tip.classList.remove("on"); }
+  function pointerXY(svg, e) { var r = svg.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+
+  /* Crosshair for time series: snaps to the nearest month, lists every series. */
+  function crosshair(svg, plot, tip, o) {
+    var g = S("g", { "pointer-events": "none" }, svg);
+    var v = S("line", { class: "xh", y1: o.y0, y2: o.y1, visibility: "hidden" }, g);
+    var dg = S("g", null, g);
+    var hit = S("rect", { x: o.x0, y: o.y0, width: o.x1 - o.x0, height: o.y1 - o.y0, fill: "transparent" }, svg);
+    var cur = -1;
+    function set(i, py) {
+      cur = clamp(i, 0, o.n - 1);
+      var x = o.xAt(cur), inf = o.info(cur);
+      v.setAttribute("x1", crisp(x)); v.setAttribute("x2", crisp(x)); v.setAttribute("visibility", "visible");
+      dg.replaceChildren();
+      inf.pts.forEach(function (p) { S("circle", { cx: x, cy: p.y, r: 4, class: p.cls + " ring" }, dg); });
+      var ty = (py != null) ? py : Math.min.apply(null, inf.pts.map(function (p) { return p.y; }).concat([(o.y0 + o.y1) / 2]));
+      showTip(plot, tip, x, ty, inf.title, inf.rows);
+    }
+    function hide() { v.setAttribute("visibility", "hidden"); dg.replaceChildren(); hideTip(tip); }
+    function move(e) { var p = pointerXY(svg, e); set(o.idxAt(p[0]), p[1]); }
+    hit.addEventListener("pointermove", move);
+    hit.addEventListener("pointerdown", move);
+    hit.addEventListener("pointerleave", hide);
+    keyNav(svg, function () { return cur; }, o.n, set, hide);
+  }
+  function keyNav(svg, getCur, n, set, hide) {
+    svg.addEventListener("focus", function () { set(getCur() < 0 ? n - 1 : getCur()); });
+    svg.addEventListener("blur", hide);
+    svg.addEventListener("keydown", function (e) {
+      var c = getCur();
+      if (e.key === "ArrowLeft") { set(c - 1); e.preventDefault(); }
+      else if (e.key === "ArrowRight") { set(c + 1); e.preventDefault(); }
+      else if (e.key === "Home") { set(0); e.preventDefault(); }
+      else if (e.key === "End") { set(n - 1); e.preventDefault(); }
+      else if (e.key === "Escape") { hide(); }
+    });
+  }
+
+  /* ---------- data view (table + CSV) ---------- */
+  function dataView(fig, cols, rows, file) {
+    var det = fig.querySelector("details.data");
+    if (!det || det.dataset.ready) return;
+    det.dataset.ready = "1";
+    var bar = document.createElement("div"); bar.className = "data-bar";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "dl"; btn.textContent = "Download CSV";
+    bar.appendChild(btn);
+    var wrap = document.createElement("div"); wrap.className = "tbl-wrap";
+    var table = document.createElement("table");
+    var thead = document.createElement("thead"), tr = document.createElement("tr");
+    cols.forEach(function (c) { var th = document.createElement("th"); th.textContent = c.h; tr.appendChild(th); });
+    thead.appendChild(tr); table.appendChild(thead);
+    var tbody = document.createElement("tbody");
+    rows.forEach(function (r) {
+      var row = document.createElement("tr");
+      cols.forEach(function (c) { var td = document.createElement("td"); td.textContent = c.f(r); row.appendChild(td); });
+      tbody.appendChild(row);
+    });
+    table.appendChild(tbody); wrap.appendChild(table);
+    det.appendChild(bar); det.appendChild(wrap);
+    btn.addEventListener("click", function () {
+      var lines = [cols.map(function (c) { return '"' + c.h + '"'; }).join(",")];
+      rows.forEach(function (r) { lines.push(cols.map(function (c) { return c.csv(r); }).join(",")); });
+      var blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = file;
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+    });
+  }
+  function col(h, idx, d, isText) {
+    return {
+      h: h,
+      f: function (r) { return isText ? (typeof r[idx] === "string" && /^\d{4}-\d{2}$/.test(r[idx]) ? mlabel(r[idx]) : r[idx]) : fmt(r[idx], d); },
+      csv: function (r) { return isText ? '"' + r[idx] + '"' : String(r[idx]); }
+    };
+  }
+
+  /* ---------- mounting with responsive redraw ---------- */
+  function mount(id, draw) {
+    var fig = document.getElementById(id);
+    if (!fig) return;
+    var plot = fig.querySelector(".plot");
+    var lastW = 0;
+    function render() {
+      var W = Math.floor(plot.clientWidth);
+      if (W < 10 || W === lastW) return;
+      lastW = W;
+      plot.replaceChildren();
+      var svg = S("svg", { role: "img", "aria-label": fig.getAttribute("data-alt") || "", tabindex: "0" });
+      plot.appendChild(svg);
+      var tip = document.createElement("div"); tip.className = "tip"; tip.setAttribute("aria-hidden", "true");
+      plot.appendChild(tip);
+      draw(svg, W, plot, tip, fig);
+    }
+    if ("ResizeObserver" in window) new ResizeObserver(render).observe(plot);
+    else window.addEventListener("resize", render);
+    render();
+  }
+
+  var REC = [[2014.25, 2017], [2020, 2020.5]];
+  var CSS_KEY = { bar: "var(--bar)", be: "var(--line)", dem: "var(--orange)", part: "var(--aqua)", dot: "var(--dot)", slope: "var(--slope)" };
+
+  /* ---------- Chart 1: history ---------- */
+  function chartHistory(svg, W, plot, tip, fig) {
+    var rows = DATA.g1; // [month, t, job creation, breakeven, demographic breakeven]
+    var narrow = W < 560;
+    var H = Math.round(clamp(W * 0.46, 250, 340));
+    var m = { l: 46, r: 6, t: 8, b: 28 };
+    frame(svg, W, H);
+    var X = lin(2013, 2027, m.l, W - m.r), Y = lin(-1050, 850, H - m.b, m.t);
+    shade(svg, X, m.t, H - m.b, REC);
+    ygrid(svg, Y, [-1000, -750, -500, -250, 0, 250, 500, 750], m.l, W - m.r, function (v) { return fmt(v); }, true);
+    var slot = X(2013 + 1 / 12) - X(2013), bw = Math.max(1, slot * 0.74);
+    var gb = S("g", { class: "bar" }, svg), y0 = Y(0);
+    rows.forEach(function (r) {
+      var y1 = Y(r[2]);
+      S("rect", { x: (X(r[1]) - bw / 2).toFixed(2), y: Math.min(y0, y1).toFixed(2), width: bw.toFixed(2), height: Math.abs(y1 - y0).toFixed(2) }, gb);
+    });
+    hline(svg, y0, m.l, W - m.r);
+    S("path", { class: "ln ln-or", d: pathD(rows.map(function (r) { return [X(r[1]), Y(r[4])]; })) }, svg);
+    S("path", { class: "ln ln-be", d: pathD(rows.map(function (r) { return [X(r[1]), Y(r[3])]; })) }, svg);
+    var years = []; for (var y = 2013; y <= 2026; y++) years.push(y);
+    xaxis(svg, X, H - m.b, m.l, W - m.r, years, function (v) { return (narrow && v % 2 === 0) ? null : String(v); });
+    crosshair(svg, plot, tip, {
+      x0: m.l, x1: W - m.r, y0: m.t, y1: H - m.b, n: rows.length,
+      xAt: function (i) { return X(rows[i][1]); },
+      idxAt: function (px) { return Math.round((X.inv(px) - rows[0][1]) * 12); },
+      info: function (i) {
+        var r = rows[i];
+        return {
+          title: mlabel(r[0]),
+          pts: [{ y: Y(r[3]), cls: "f-line" }, { y: Y(r[4]), cls: "f-or" }],
+          rows: [
+            { c: CSS_KEY.bar, v: fmt(r[2], 1), l: "Job creation" },
+            { c: CSS_KEY.be, v: fmt(r[3], 1), l: "Breakeven" },
+            { c: CSS_KEY.dem, v: fmt(r[4], 1), l: "Demographic breakeven" }
+          ]
+        };
+      }
+    });
+    dataView(fig, [col("Month", 0, 0, true), col("Job creation", 2, 1), col("Breakeven", 3, 1), col("Demographic breakeven", 4, 1)],
+      rows, "breakeven_brazil_chart1.csv");
+  }
+
+  /* ---------- Chart 2: components ---------- */
+  function chartComponents(svg, W, plot, tip, fig) {
+    var rows = DATA.g2; // [label, x, demographics, participation, total]
+    var H = Math.round(clamp(W * 0.5, 250, 330));
+    var m = { l: 42, r: 4, t: 8, b: 36 };
+    frame(svg, W, H);
+    var X = lin(-0.6, 14.2, m.l, W - m.r), Y = lin(-560, 470, H - m.b, m.t);
+    var unit = X(1) - X(0), bw = Math.min(24, unit * 0.62);
+    var hl = S("rect", { class: "hl", y: m.t, height: H - m.b - m.t, width: unit, visibility: "hidden" }, svg);
+    ygrid(svg, Y, [-400, -200, 0, 200, 400], m.l, W - m.r, function (v) { return fmt(v); }, true);
+    vline(svg, X(12.8), m.t, H - m.b, "sep");
+    var y0 = Y(0), gap = 2;
+    rows.forEach(function (r) {
+      var cx = X(r[1]), x = cx - bw / 2, K = r[2], P = r[3];
+      S("rect", { class: "bar-dem", x: x, y: Y(K), width: bw, height: y0 - Y(K) }, svg);
+      if (P > 0) {
+        var top = Y(K + P), bottom = Y(K) - gap;
+        if (bottom - top > 0.5) S("rect", { class: "bar-part", x: x, y: top, width: bw, height: bottom - top }, svg);
+      } else if (P < 0) {
+        var t2 = y0 + 1, b2 = Y(P);
+        if (b2 - t2 > 0.5) S("rect", { class: "bar-part", x: x, y: t2, width: bw, height: b2 - t2 }, svg);
+      }
+    });
+    hline(svg, y0, m.l, W - m.r);
+    rows.forEach(function (r) { S("circle", { class: "f-line ring", cx: X(r[1]), cy: Y(r[4]), r: 4 }, svg); });
+    var ticks = rows.map(function (r) { return r[1]; });
+    xaxis(svg, X, H - m.b, m.l, W - m.r, ticks, function (v) {
+      var r = rows[ticks.indexOf(v)];
+      return isYear(r[0]) ? (W >= 640 ? r[0] : r[0].slice(2)) : null;
+    });
+    var last = rows[rows.length - 1];
+    T(svg, X(last[1]), H - m.b + 18, "Last", { "text-anchor": "middle", class: "tick" });
+    T(svg, X(last[1]), H - m.b + 31, "12m", { "text-anchor": "middle", class: "tick" });
+    var cur = -1;
+    function set(i, py) {
+      cur = clamp(i, 0, rows.length - 1);
+      var r = rows[cur], cx = X(r[1]);
+      hl.setAttribute("x", cx - unit / 2); hl.setAttribute("visibility", "visible");
+      var title = periodName(r[0]);
+      showTip(plot, tip, cx, py != null ? py : Math.min(Y(r[2] + Math.max(r[3], 0)), Y(r[4])),
+        title, [
+          { c: CSS_KEY.dem, v: fmt(r[2], 1), l: "Demographics" },
+          { c: CSS_KEY.part, v: fmt(r[3], 1), l: "Participation" },
+          { c: CSS_KEY.be, v: fmt(r[4], 1), l: "Total breakeven", dot: true }
+        ]);
+    }
+    function hide() { hl.setAttribute("visibility", "hidden"); hideTip(tip); }
+    var hit = S("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.b - m.t, fill: "transparent" }, svg);
+    function move(e) {
+      var p = pointerXY(svg, e), xv = X.inv(p[0]), best = 0, bd = Infinity;
+      rows.forEach(function (r, i) { var dd = Math.abs(r[1] - xv); if (dd < bd) { bd = dd; best = i; } });
+      set(best, p[1]);
+    }
+    hit.addEventListener("pointermove", move);
+    hit.addEventListener("pointerdown", move);
+    hit.addEventListener("pointerleave", hide);
+    keyNav(svg, function () { return cur; }, rows.length, set, hide);
+    dataView(fig, [
+      { h: "Period", f: function (r) { return periodName(r[0]); }, csv: function (r) { return '"' + periodName(r[0]) + '"'; } },
+      col("Demographics", 2, 1), col("Participation", 3, 1), col("Total breakeven", 4, 1)
+    ], rows, "breakeven_brazil_chart2.csv");
+  }
+
+  /* ---------- Chart 3: population growth ---------- */
+  function chartPopulation(svg, W, plot, tip, fig) {
+    var rows = DATA.g3; // [month, t, growth %]
+    var H = Math.round(clamp(W * 0.46, 240, 320));
+    var m = { l: 34, r: 8, t: 14, b: 28 };
+    frame(svg, W, H);
+    var X = lin(2012, 2027, m.l, W - m.r), Y = lin(0.55, 1.6, H - m.b, m.t);
+    shade(svg, X, m.t, H - m.b, REC);
+    ygrid(svg, Y, [0.6, 0.8, 1.0, 1.2, 1.4, 1.6], m.l, W - m.r, function (v) { return fmt(v, 1); });
+    S("path", { class: "ln ln-or", d: pathD(rows.map(function (r) { return [X(r[1]), Y(r[2])]; })) }, svg);
+    var f = rows[0], l = rows[rows.length - 1];
+    S("circle", { class: "f-or ring", cx: X(f[1]), cy: Y(f[2]), r: 4 }, svg);
+    S("circle", { class: "f-or ring", cx: X(l[1]), cy: Y(l[2]), r: 4 }, svg);
+    T(svg, X(f[1]), Y(f[2]) - 10, fmt(f[2], 2), { "text-anchor": "middle", class: "tick" });
+    T(svg, X(l[1]), Y(l[2]) + 19, fmt(l[2], 2), { "text-anchor": "middle", class: "tick" });
+    var minor = []; for (var y = 2012; y <= 2026; y++) minor.push(y);
+    xaxis(svg, X, H - m.b, m.l, W - m.r, [2013, 2016, 2019, 2022, 2025], function (v) { return String(v); }, minor);
+    crosshair(svg, plot, tip, {
+      x0: m.l, x1: W - m.r, y0: m.t, y1: H - m.b, n: rows.length,
+      xAt: function (i) { return X(rows[i][1]); },
+      idxAt: function (px) { return Math.round((X.inv(px) - rows[0][1]) * 12); },
+      info: function (i) {
+        var r = rows[i];
+        return { title: mlabel(r[0]), pts: [{ y: Y(r[2]), cls: "f-or" }], rows: [{ c: CSS_KEY.dem, v: fmt(r[2], 2) + "%", l: "Change over 12 months" }] };
+      }
+    });
+    dataView(fig, [col("Month", 0, 0, true), col("Change over 12 months (%)", 2, 2)], rows, "breakeven_brazil_chart3.csv");
+  }
+
+  /* ---------- Chart 4: recent period ---------- */
+  function chartRecent(svg, W, plot, tip, fig) {
+    var rows = DATA.g4; // [month, t, job creation, breakeven, demographic breakeven]
+    var H = Math.round(clamp(W * 0.5, 250, 330));
+    var m = { l: 40, r: 8, t: 8, b: 28 };
+    frame(svg, W, H);
+    var X = lin(2022.926, 2026.967, m.l, W - m.r), Y = lin(-110, 300, H - m.b, m.t);
+    ygrid(svg, Y, [-100, 0, 100, 200, 300], m.l, W - m.r, function (v) { return fmt(v); }, true);
+    var slot = X(2023 + 1 / 12) - X(2023), bw = Math.min(24, Math.max(2, slot * 0.66));
+    var gb = S("g", { class: "bar" }, svg), y0 = Y(0);
+    rows.forEach(function (r) {
+      var y1 = Y(r[2]);
+      S("rect", { x: X(r[1]) - bw / 2, y: Math.min(y0, y1), width: bw, height: Math.abs(y1 - y0) }, gb);
+    });
+    hline(svg, y0, m.l, W - m.r);
+    S("path", { class: "ln ln-or", d: pathD(rows.map(function (r) { return [X(r[1]), Y(r[4])]; })) }, svg);
+    S("path", { class: "ln ln-be", d: pathD(rows.map(function (r) { return [X(r[1]), Y(r[3])]; })) }, svg);
+    var last = rows[rows.length - 1], lx = X(last[1]), tx = X(last[1] + 38 / 365);
+    [[last[2], 112, "f-end"], [last[4], 80, "f-or"], [last[3], 48, "f-line"]].forEach(function (a) {
+      S("line", { class: "lead", x1: lx, y1: Y(a[0]), x2: tx, y2: Y(a[1]) }, svg);
+      T(svg, tx + 3, Y(a[1]), fmt(a[0]), { dy: "0.35em", class: "tick" });
+    });
+    [[last[2], "f-end"], [last[4], "f-or"], [last[3], "f-line"]].forEach(function (a) {
+      S("circle", { class: a[1] + " ring", cx: lx, cy: Y(a[0]), r: 4 }, svg);
+    });
+    var minor = []; for (var y = 2023; y <= 2026; y++) { minor.push(y + 0.25, y + 0.5, y + 0.75); }
+    xaxis(svg, X, H - m.b, m.l, W - m.r, [2023, 2024, 2025, 2026], function (v) { return String(v); }, minor);
+    crosshair(svg, plot, tip, {
+      x0: m.l, x1: W - m.r, y0: m.t, y1: H - m.b, n: rows.length,
+      xAt: function (i) { return X(rows[i][1]); },
+      idxAt: function (px) { return Math.round((X.inv(px) - rows[0][1]) * 12); },
+      info: function (i) {
+        var r = rows[i];
+        return {
+          title: mlabel(r[0]),
+          pts: [{ y: Y(r[3]), cls: "f-line" }, { y: Y(r[4]), cls: "f-or" }],
+          rows: [
+            { c: CSS_KEY.bar, v: fmt(r[2], 1), l: "Job creation" },
+            { c: CSS_KEY.be, v: fmt(r[3], 1), l: "Breakeven" },
+            { c: CSS_KEY.dem, v: fmt(r[4], 1), l: "Demographic breakeven" },
+            { c: "transparent", v: fmt(r[2] - r[3], 1), l: "Gap" }
+          ]
+        };
+      }
+    });
+    dataView(fig, [col("Month", 0, 0, true), col("Job creation", 2, 1), col("Breakeven", 3, 1), col("Demographic breakeven", 4, 1)],
+      rows, "breakeven_brazil_chart4.csv");
+  }
+
+  /* ---------- Chart 5: rule of thumb ---------- */
+  function chartRule(svg, W, plot, tip, fig) {
+    var rows = DATA.g5; // [month, gap, change in unemployment over 12 months]
+    var narrow = W < 560;
+    var H = Math.round(clamp(W * 0.62, 290, 420));
+    var m = { l: 34, r: 8, t: 24, b: 46 };
+    frame(svg, W, H);
+    var X = lin(-450, 520, m.l, W - m.r), Y = lin(-6.5, 5.5, H - m.b, m.t);
+    var xt = narrow ? [-300, 0, 300] : [-450, -300, -150, 0, 150, 300, 450];
+    xgrid(svg, X, [-450, -300, -150, 150, 300, 450], m.t, H - m.b);
+    ygrid(svg, Y, [-6, -4, -2, 0, 2, 4], m.l, W - m.r, function (v) { return fmt(v); }, true);
+    hline(svg, Y(0), m.l, W - m.r);
+    vline(svg, X(0), m.t, H - m.b);
+    var k = -1200 / DATA.L;
+    S("line", { class: "slope", x1: X(-450), y1: Y(k * -450), x2: X(500), y2: Y(k * 500) }, svg);
+    var pts = rows.map(function (r) { return [X(r[1]), Y(r[2])]; });
+    var gp = S("g", null, svg);
+    pts.forEach(function (p) { S("circle", { class: "pt", cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: 3 }, gp); });
+    var L = pts[pts.length - 1];
+    S("circle", { class: "f-line ring", cx: L[0], cy: L[1], r: 5 }, svg);
+    T(svg, L[0] + 9, L[1] - 17, "Aug 2026", { class: "tick" });
+    var ax = X(narrow ? 30 : 60), ay = Y(3.4);
+    T(svg, ax, ay, "Slope: " + fmt(k, 3) + " pp per", { class: "tick" });
+    T(svg, ax, ay + 15, "thousand jobs a month", { class: "tick" });
+    xaxis(svg, X, H - m.b, m.l, W - m.r, [-450, -300, -150, 0, 150, 300, 450], function (v) { return xt.indexOf(v) >= 0 ? fmt(v) : null; });
+    T(svg, (m.l + W - m.r) / 2, H - 6, "Gap, thousands of jobs a month (average over 12 months)", { "text-anchor": "middle" });
+    T(svg, m.l - 30, m.t - 10, "Change in unemployment over 12 months, pp", { "text-anchor": "start" });
+    var ring = S("circle", { class: "sel", r: 6.5, visibility: "hidden", "pointer-events": "none" }, svg);
+    var hit = S("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.b - m.t, fill: "transparent" }, svg);
+    var cur = -1;
+    function set(i) {
+      cur = clamp(i, 0, rows.length - 1);
+      var r = rows[cur], p = pts[cur];
+      ring.setAttribute("cx", p[0]); ring.setAttribute("cy", p[1]); ring.setAttribute("visibility", "visible");
+      showTip(plot, tip, p[0], p[1], mlabel(r[0]), [
+        { c: CSS_KEY.dot, v: fmt(r[1], 1), l: "Gap, thousands a month", dot: true },
+        { c: CSS_KEY.dot, v: fmt(r[2], 2, true) + " pp", l: "Change in unemployment", dot: true }
+      ]);
+    }
+    function hide() { ring.setAttribute("visibility", "hidden"); hideTip(tip); }
+    function move(e) {
+      var p = pointerXY(svg, e), best = -1, bd = 28 * 28;
+      pts.forEach(function (q, i) { var dx = q[0] - p[0], dy = q[1] - p[1], dd = dx * dx + dy * dy; if (dd < bd) { bd = dd; best = i; } });
+      if (best < 0) hide(); else set(best);
+    }
+    hit.addEventListener("pointermove", move);
+    hit.addEventListener("pointerdown", move);
+    hit.addEventListener("pointerleave", hide);
+    keyNav(svg, function () { return cur; }, rows.length, set, hide);
+    dataView(fig, [col("Month", 0, 0, true), col("Gap, thousands a month", 1, 1), col("Change in unemployment over 12 months (pp)", 2, 2)],
+      rows, "breakeven_brazil_chart5.csv");
+  }
+
+  /* ---------- Rule of thumb calculator ---------- */
+  function calculator() {
+    var jobs = document.getElementById("in-jobs"), be = document.getElementById("in-be");
+    var oj = document.getElementById("out-jobs"), ob = document.getElementById("out-be");
+    var out = document.getElementById("calc-out");
+    if (!jobs || !be || !out) return;
+    var btns = Array.prototype.slice.call(document.querySelectorAll(".presets button"));
+    function update() {
+      var j = +jobs.value, b = +be.value, gap = j - b;
+      var du = -1200 * gap / DATA.L, u1 = DATA.u0 + du;
+      oj.textContent = fmt(j); ob.textContent = fmt(b);
+      btns.forEach(function (x) { x.setAttribute("aria-pressed", String(+x.dataset.be === b)); });
+      out.replaceChildren();
+      var parts = Math.abs(du) < 0.05 ?
+        ["A gap of ", { b: fmt(gap * 1000) }, " jobs a month. Over 12 months, unemployment stays near ", { b: fmt(DATA.u0, 1) + "%" }, ", its August 2026 level."] :
+        ["A gap of ", { b: fmt(gap * 1000) }, " jobs a month. Over 12 months, unemployment " + (du < 0 ? "falls" : "rises") + " by ",
+         { b: fmt(Math.abs(du), 1) + " pp" }, ", from " + fmt(DATA.u0, 1) + "% in August 2026 to about ", { b: fmt(u1, 1) + "%" }, "."];
+      parts.forEach(function (p) {
+        if (typeof p === "string") out.appendChild(document.createTextNode(p));
+        else { var e = document.createElement("b"); e.textContent = p.b; out.appendChild(e); }
+      });
+    }
+    jobs.addEventListener("input", update);
+    be.addEventListener("input", update);
+    btns.forEach(function (x) { x.addEventListener("click", function () { be.value = x.dataset.be; update(); }); });
+    update();
+  }
+
+  mount("c1", chartHistory);
+  mount("c2", chartComponents);
+  mount("c3", chartPopulation);
+  mount("c4", chartRecent);
+  mount("c5", chartRule);
+  calculator();
+})();
+</script>
+</body>
+</html>
