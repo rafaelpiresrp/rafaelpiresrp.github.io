@@ -1,6 +1,4 @@
- Add one record per article. Valid areas: economics, finance.
-   Valid types: letters, working_papers, what_if.
-   Example:
+
    {
      titulo: "Breakeven employment growth in Brazil",
      area: "economics",
