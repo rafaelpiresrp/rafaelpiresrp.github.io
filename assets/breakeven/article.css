@@ -11,7 +11,8 @@
 .article-tools a { display:inline-flex; align-items:center; min-height:44px; }
 .language-switch [aria-current="page"] { text-decoration:underline; text-decoration-color:var(--brown); text-underline-offset:.3em; }
 .pdf-links span { color:var(--muted); font-size:.73rem; letter-spacing:.08em; }
-.article-body { font-size:1.02rem; line-height:1.85; }
+.article-body { font-size:1.02rem; line-height:1.85; color:#fff; }
+.article-body h2,.method summary { color:var(--ink); }
 .article-body>p,.article-body>h2,.key-findings,.method,.references { max-width:45rem; }
 .article-body>h2 { margin-top:3.4rem; }
 .key-findings { margin:0 0 3rem; padding:0; }
@@ -19,7 +20,7 @@
 .key-findings ul { padding-left:1.1rem; margin:0; }
 .key-findings li { padding-left:.3rem; margin:.7rem 0; }
 .key-findings p { margin:0; }
-.key-findings strong { color:var(--ink); font-weight:600; }
+.key-findings strong { font-weight:600; }
 .method { margin:2.5rem 0; padding:1.2rem 1.4rem; background:var(--green-deep); font-size:.94rem; }
 .method summary { cursor:pointer; font-family:var(--serif); font-size:1.15rem; }
 .method[open] summary { margin-bottom:1.3rem; }
