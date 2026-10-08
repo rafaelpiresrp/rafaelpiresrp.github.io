@@ -168,7 +168,7 @@ h1{font:400 clamp(2.6rem,5vw,3.8rem)/1.1 var(--serif);letter-spacing:-.03em;marg
       const time = document.createElement("time");
       time.dateTime = item.data;
       const date = new Date(item.data + "T12:00:00Z");
-      time.textContent = Number.isNaN(date.getTime()) ? item.data : formatter.format(date);
+      time.textContent = typeof item.data_texto === "string" && item.data_texto.trim() ? item.data_texto : (Number.isNaN(date.getTime()) ? item.data : formatter.format(date));
       const heading = document.createElement("h3");
       const link = document.createElement("a");
       link.href = item.arquivo;
