@@ -155,6 +155,7 @@ h1{font:400 clamp(2.6rem,5vw,3.8rem)/1.1 var(--serif);letter-spacing:-.03em;marg
     list.replaceChildren();
     list.setAttribute("aria-label", typeLabels[type]);
     const subset = items.filter(entry => (entry.tipo || "letters") === type);
+    if (type === "letters") subset.sort((a, b) => a.data.localeCompare(b.data));
     if (!subset.length) {
       const empty = document.createElement("p");
       empty.className = "empty";

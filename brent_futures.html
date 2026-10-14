@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="description" content="A scale invariant measure for comparing the Brent futures curve across episodes."><meta name="author" content="Rafael Pires de Oliveira"><title>Reading the Brent Futures Curve | Rafael Pires</title><link rel="canonical" href="https://rafaelpiresrp.github.io/brent_futures.html"><style>:root{
+  --green:#213024;
+  --green-deep:#172119;
+  --ink:#ece4d3;
+  --muted:#aea78f;
+  --brown:#a8693a;
+  --serif:Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;background:var(--green);color:var(--ink);font:1rem/1.75 var(--sans)}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-decoration-color:var(--brown);text-underline-offset:.3em;text-decoration-thickness:1px}
+a:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+h1,h2,h3,p{margin-top:0}
+h1{font:400 clamp(2.6rem,5vw,3.8rem)/1.1 var(--serif);letter-spacing:-.03em;margin-bottom:2.5rem}
+.skip-link{position:absolute;top:-8rem;left:1rem;padding:.5rem 1rem;background:var(--green-deep)}
+.skip-link:focus{top:1rem}
+
+/* Home */
+.home-main{flex:1;display:grid;grid-template-columns:auto 1fr;min-height:100vh;min-height:100svh}
+.home-figure{margin:0;height:100vh;height:100svh;position:sticky;top:0}
+.home-figure img{display:block;height:100%;width:auto;max-width:62vw;object-fit:cover;object-position:70% center}
+.home-panel{display:flex;flex-direction:column;justify-content:center;padding:4rem clamp(2rem,5vw,5.5rem)}
+.home h1{white-space:nowrap;font-size:clamp(2.8rem,4.6vw,5.5rem);line-height:1.02;letter-spacing:-.045em;margin:0 0 3rem}
+.home h1 span{color:var(--brown)}
+.home-nav{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem}
+.home-nav a{font:400 1.5rem/1.6 var(--serif)}
+.home-foot{margin-top:4rem;font-size:.75rem;line-height:1.6;color:var(--muted)}
+.home-foot p{margin:0}
+
+/* Inner pages */
+.site-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.5rem 2rem;width:calc(100% - 4rem);max-width:60rem;margin:0 auto;padding:2rem 0}
+.wordmark{font:400 1.5rem/1.2 var(--serif);letter-spacing:-.02em}
+.header-nav{display:flex;flex-wrap:wrap;gap:.25rem 2rem;font-size:.9rem;color:var(--muted)}
+.header-nav a[aria-current="page"]{color:var(--ink)}
+.page-main{flex:1;width:calc(100% - 4rem);max-width:60rem;margin:0 auto;padding:3.5rem 0 5rem}
+
+.about-copy{max-width:38rem}
+.about-copy p{font-size:1.1rem;line-height:1.85;margin-bottom:1.4rem}
+
+.research-areas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem}
+.research-areas h2{font:400 2rem/1.25 var(--serif);margin:0 0 1rem}
+.area-topics{display:flex;flex-direction:column;gap:.2rem;color:var(--muted)}
+.area-topics a:hover{color:var(--ink)}
+
+.archive-heading{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:1rem 2rem;margin-bottom:2rem}
+.archive-heading h1{margin:0}
+.area-switch,.section-tabs{display:flex;flex-wrap:wrap;gap:.25rem 1.75rem;font-size:.95rem;color:var(--muted)}
+.area-switch a[aria-current="page"],.section-tabs a[aria-current="location"]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--brown);text-underline-offset:.3em;text-decoration-thickness:1px}
+.section-tabs{margin-bottom:2.5rem}
+.publication{margin-bottom:2.5rem}
+.publication time{font-size:.8rem;color:var(--muted)}
+.publication h3{font:400 clamp(1.4rem,2.6vw,1.75rem)/1.3 var(--serif);margin:.2rem 0 .4rem;max-width:44rem}
+.publication p{color:var(--muted);max-width:42rem;margin:0}
+.empty{color:var(--muted)}
+
+.article-main{max-width:44rem}
+.article-header{margin-bottom:2.5rem}
+.article-header h1{margin-bottom:1rem}
+.article-byline{font-size:.85rem;color:var(--muted)}
+.article-body{font-size:1.1rem;line-height:1.85}
+.article-body p{margin-bottom:1.4rem}
+.article-body h2{font:400 1.7rem/1.35 var(--serif);margin:2.6rem 0 1rem}
+.article-body figure{margin:2rem 0}
+.article-body img{display:block;max-width:100%;height:auto}
+.article-body figcaption{color:var(--muted);font-size:.85rem;padding-top:.6rem}
+.article-body blockquote{margin:2rem 0;padding-left:1.5rem;border-left:2px solid var(--brown);font:1.3rem/1.6 var(--serif)}
+.article-back{margin-top:3rem;font-size:.9rem;color:var(--muted)}
+
+.site-footer{width:calc(100% - 4rem);max-width:60rem;margin:0 auto;padding:2rem 0;font-size:.75rem;color:var(--muted)}
+.site-footer p{margin:0}
+[hidden]{display:none!important}
+
+@media(max-width:760px){
+  .home-main{grid-template-columns:1fr}
+  .home-figure{position:static;height:52svh}
+  .home-figure img{width:100%;max-width:none;object-position:center 30%}
+  .home-panel{padding:2.5rem 1.75rem 2rem}
+  .home h1{margin-bottom:2rem}
+  .home-nav a{font-size:1.3rem}
+  .home-foot{margin-top:2.5rem}
+  .site-header,.page-main,.site-footer{width:calc(100% - 3rem)}
+  .site-header{padding:1.25rem 0}
+  .page-main{padding-top:2rem}
+  .research-areas{grid-template-columns:1fr;gap:2.25rem}
+  .archive-heading{flex-direction:column}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .site-header,.site-footer,.skip-link,.article-back,.area-switch{display:none}
+}
+</style><link rel="stylesheet" href="assets/breakeven/article.css"><link rel="stylesheet" href="assets/brent/article.css"></head>
+<body class="brent-article"><a class="skip-link" href="#conteudo">Skip to content</a><header class="site-header"><a class="wordmark" href="index.html">Rafael Pires</a><nav class="header-nav" aria-label="Main navigation"><a href="sobre.html">About</a><a href="research.html">Research &amp; Topics of Interest</a></nav></header>
+<main id="conteudo" class="page-main article-main"><p class="article-location"><a href="economics.html#letters">Economics / Letters</a></p>
+<article><header class="article-header"><h1>Reading the Brent Futures Curve</h1><p class="article-deck">Comparing Brent futures across delivery dates</p><p class="article-byline"><span>Rafael Pires de Oliveira</span><time datetime="2026-03">March 2026</time><span>Updated October 2026</span></p><div class="article-tools"><div class="pdf-links"><a href="assets/brent/Reading_the_Brent_Futures_Curve.pdf" download>Download PDF (English)</a></div></div></header><div class="article-body"><p>The Iran war renewed the debate about how high oil prices could rise. My interest here is less in forecasting a particular price and more in building a simple way to compare episodes. The question is how expensive nearby Brent futures are relative to contracts for later delivery, and how that relative price changes over time.</p>
+<p>The nearby price alone gives limited information about this distinction. Brent can trade at $100 with an almost flat curve or with a large premium over deferred contracts. If the whole curve rises together, the higher nearby price says little about a greater urgency for earlier delivery. A rise concentrated in nearby futures produces a different pattern. Comparing the nearby price only with its own past can miss that difference.</p>
+<p>A calendar spread adds this missing comparison, but its size still depends on the price level. If nearby futures are $50 and deferred futures are $40, the spread is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>$</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">-\$10</annotation></semantics></math>. At $100 and $80, it is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>$</mi><mn>20</mn></mrow><annotation encoding="application/x-tex">-\$20</annotation></semantics></math>. The absolute gap doubles, yet the deferred discount is 20% in both cases. A larger absolute gap therefore need not mean a larger relative premium.</p>
+<details class="method" open><summary>Spread and slope</summary>
+<p>Let <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>F</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><annotation encoding="application/x-tex">F_t^{(0)}</annotation></semantics></math> denote nearby Brent futures and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>F</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>12</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><annotation encoding="application/x-tex">F_t^{(12)}</annotation></semantics></math> the contract 12 delivery months beyond it. Define <span class="equation-wrap" id="eq:spread"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mi>t</mi></msub><mo>=</mo><msubsup><mi>F</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>12</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>F</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><mo>,</mo></mrow><annotation encoding="application/x-tex">D_t = F_t^{(12)}-F_t^{(0)},\label{eq:spread}</annotation></semantics></math><span class="equation-number">(1)</span></span> <span class="equation-wrap" id="eq:slope"><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mi>t</mi></msub><mo>=</mo><mn>100</mn><mo>ln</mo><mspace width="-0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msubsup><mi>F</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>12</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup><msubsup><mi>F</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msubsup></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">s_t = 100\ln\!\left(\frac{F_t^{(12)}}{F_t^{(0)}}\right).\label{eq:slope}</annotation></semantics></math><span class="equation-number">(2)</span></span> The spread is in USD per barrel; the slope is in log points. Both are negative in backwardation, when nearby futures are more expensive, and positive in contango. A slope of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>20.92</mn></mrow><annotation encoding="application/x-tex">-20.92</annotation></semantics></math> log points corresponds to a deferred price 18.88% below nearby.</p>
+</details>
+<p>The logarithmic slope uses the ratio of the two futures prices. In the example above, both curves have the same ratio of 0.8 and the same slope of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>22.31</mn></mrow><annotation encoding="application/x-tex">-22.31</annotation></semantics></math> log points. Multiplying both prices by the same factor leaves the measure unchanged. With the delivery spacing held at 12 months, this makes the slope comparable across periods with very different Brent price levels.</p>
+<figure class="note-figure" id="g:spread"><figcaption><h3>Figure 1: Spread between Brent futures contracts</h3><p class="figure-subtitle">12 months beyond nearby minus nearby, USD per barrel.</p></figcaption><div data-chart="spread" data-title="Spread between Brent futures contracts"><img class="chart-fallback" src="assets/brent/spread.svg" alt="Spread between Brent futures contracts"></div><p class="figure-source">Source: Bloomberg; author's calculations.</p></figure>
+<figure class="note-figure" id="g:slope"><figcaption><h3>Figure 2: Logarithmic slope of the Brent futures curve</h3><p class="figure-subtitle"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mo>ln</mo><mrow><mo stretchy="true" form="prefix">(</mo><msup><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>12</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mi>/</mi><msup><mi>F</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>0</mn><mo stretchy="true" form="postfix">)</mo></mrow></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">100\ln(F^{(12)}/F^{(0)})</annotation></semantics></math>, log points.</p></figcaption><div data-chart="slope" data-title="Logarithmic slope of the Brent futures curve"><img class="chart-fallback" src="assets/brent/slope.svg" alt="Logarithmic slope of the Brent futures curve"></div><p class="figure-source">Source: Bloomberg; author's calculations.</p></figure>
+<p>On 3 July 2008, nearby Brent futures reached $146.08 with a slope of 1.24 log points. On 31 March 2026, they were lower at $118.35, but the slope was <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>44.91</mn></mrow><annotation encoding="application/x-tex">-44.91</annotation></semantics></math>, the most negative reading since April 1998. The latter episode had a much larger relative premium for nearby delivery.</p>
+<figure class="note-figure" id="g:prices"><figcaption><h3>Figure 3: Brent futures prices in 2026</h3><p class="figure-subtitle">USD per barrel. Labels show prices on 13 October.</p></figcaption><div data-chart="prices" data-title="Brent futures prices in 2026"><img class="chart-fallback" src="assets/brent/prices.svg" alt="Brent futures prices in 2026"></div><p class="figure-source">Source: Bloomberg. The vertical line marks 28 February 2026.</p></figure>
+<p>Between 27 February and 31 March, nearby Brent futures rose from $72.48 to $118.35, while the contract 12 months beyond nearby increased from $67.35 to $75.53. The repricing was concentrated in nearby delivery. By 13 October, the spread had narrowed to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>$</mi><mn>20.02</mn></mrow><annotation encoding="application/x-tex">-\$20.02</annotation></semantics></math> and the slope to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>20.92</mn></mrow><annotation encoding="application/x-tex">-20.92</annotation></semantics></math> log points.</p>
+<p>A more negative slope is consistent with tighter nearby conditions, but demand, inventories and risk premia also affect the curve. It provides a comparison across delivery dates, rather than an isolated measure of supply restrictions.</p>
+<div class="small">
+<p>Data: Bloomberg CO1, CO13 and CO25, daily observations from 16 April 1998 to 13 October 2026. Month labels refer to delivery spacing relative to nearby futures.</p>
+</div>
+</div></article>
+<p class="article-back"><a href="economics.html#letters">Back to Letters</a></p></main><footer class="site-footer"><p>© 2026 Rafael Pires</p></footer><script src="assets/brent/data.js"></script><script src="assets/brent/charts.js"></script></body></html>

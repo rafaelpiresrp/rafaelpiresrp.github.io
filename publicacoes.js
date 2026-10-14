@@ -1,5 +1,14 @@
 window.PUBLICACOES = [
   {
+    "titulo": "Reading the Brent Futures Curve",
+    "area": "economics",
+    "tipo": "letters",
+    "data": "2026-03-01",
+    "data_texto": "March 2026",
+    "resumo": "",
+    "arquivo": "brent_futures.html"
+  },
+  {
     "titulo": "Breakeven Employment Growth in Brazil",
     "area": "economics",
     "tipo": "letters",
